@@ -1,7 +1,9 @@
-export default function HomePage(){
+import TopBar from "../../components/TopBar/TopBar.jsx";
+
+export default function HomePage() {
     return (
-        <div>
-            <h1>Home Page</h1>
+        <div className="home-bg">
+            <TopBar />
         </div>
     )
 }

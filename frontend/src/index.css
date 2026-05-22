@@ -1,0 +1,22 @@
+:root {
+    /* Colors */
+    --pure-white: #FFFFFF;
+    --dark-purple: #4E1A3D;
+    --light-pink: #FF2768;
+    --light-cyan: #05E0E9;
+    --bg-beige: #E5DDD8;
+    --text-black: #212121;
+    --dark-gray: #484B4D;
+    --medium-gray: #757575;
+    --light-gray: #D7D7D7;
+
+    /* Fonts */
+    --font-poppins: 'Poppins', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-poppins);
+}

@@ -1,0 +1,16 @@
+.top-bar-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px;
+
+    background-color: var(--dark-purple);
+    color: var(--pure-white);
+}
+
+.top-bar-left-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
