@@ -1,6 +1,7 @@
 .home-bg {
     display: flex;
     flex-direction: column;
+    gap: 10px;
 
     background-color: var(--bg-beige);
     min-height: 100vh;
@@ -11,4 +12,39 @@
     justify-content: center;
 
     margin-top: 20px;
+}
+
+.total-tasks-display {
+    margin: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total-tasks-text {
+    color: var(--text-black);
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.tasks-display {
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+
+    gap: 10px;
+}
+
+.category-tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.category-title {
+    font-size: 18px;
+    font-weight: 700;
+
+    margin-bottom: 5px;
+    margin-top: 5px;
 }

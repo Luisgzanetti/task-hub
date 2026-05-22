@@ -1,0 +1,114 @@
+.task-card {
+    padding: 10px;
+
+    background-color: var(--pure-white);
+    color: var(--text-black);
+    border-radius: 20px;
+
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.task-top-content {
+    position: relative;
+
+    background-color: var(--pure-white);
+    color: var(--text-black);
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.complete-btn {
+    width: 27px;
+    height: 27px;
+
+    border: 1px solid var(--text-black);
+    border-radius: 50%;
+
+    background-color: var(--pure-white);
+}
+
+.task-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.task-title-display {
+    display: flex;
+}
+
+.task-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.due-date-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.due-date-text {
+    font-size: 16px;
+    color: var(--text-black);
+}
+
+.task-category-card {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+    border: solid 1px var(--text-black);
+    border-radius: 20px;
+
+    height: 20px;
+    width: 80px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-category-text {
+    color: var(--text-black);
+    font-size: 12px;
+}
+
+.overdue-category {
+    background-color: #FF000080;
+}
+
+.in_progress-category {
+    background-color: #FFCC0080;
+}
+
+.completed-category {
+    background-color: #34C75980;
+}
+
+.task-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.task-description {
+    color: var(--dark-gray);
+    font-size: 16px;
+
+    overflow-wrap: break-word;
+}
+
+.details-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+}
