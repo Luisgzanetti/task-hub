@@ -11,7 +11,9 @@ Certifique-se de ter instalado em sua máquina:
 
 ### 1. Clonar o repositório
 Abra o seu terminal e execute o seguinte comando para clonar o repositório:
-```git clone URL_DO_PROJETO ```
+```bash
+git clone URL_DO_PROJETO
+```
 Entre na pasta do projeto(frontend):
 ```bash
 cd nome-do-projeto
@@ -29,8 +31,13 @@ Após a instalação das dependências, inicie o servidor de desenvolvimento com
 ```bash
 npm run dev
 ```
+O projeto será iniciado e geralmente estará acessível em ```http://localhost:PORTA``` (verifique no terminal qual porta foi atribuída).
 
 ## Tecnlogias utilizadas
+(Se decidirmos usar mais alguma coisa tem que colocar aqui depois)
+### Frontend
+- **React**, inicializado com **Vite**
+- **React-router** para controlar a navegação interna do app
 
 ## Membros do grupo
 (Completem depois com o nome inteiro)
