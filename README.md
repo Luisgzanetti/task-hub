@@ -9,20 +9,26 @@ Certifique-se de ter instalado em sua máquina:
 - Node.js
 - npm ou yarn
 
-### 1.Clonar o repositório
+### 1. Clonar o repositório
 Abra o seu terminal e execute o seguinte comando para clonar o repositório:
 ```git clone URL_DO_PROJETO ```
 Entre na pasta do projeto(frontend):
-```cd nome-do-projeto```
-```cd frontend```
+```bash
+cd nome-do-projeto
+cd frontend
+```
 
-### 2.Instalar dependências
+### 2. Instalar dependências
 Instale todas as dependências necessárias listadas no arquivo package.json utilizando o npm:
-```npm install```
+```bash
+npm install
+```
 
-### 3.Rodar o projeto
+### 3. Rodar o projeto
 Após a instalação das dependências, inicie o servidor de desenvolvimento com o seguinte comando:
-```npm run dev```
+```bash
+npm run dev
+```
 
 ## Tecnlogias utilizadas
 
