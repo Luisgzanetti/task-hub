@@ -33,6 +33,10 @@
     background-color: var(--pure-white);
 }
 
+.complete-btn-active {
+    background-color: #34C75980;
+}
+
 .task-content {
     display: flex;
     flex-direction: column;

@@ -16,7 +16,7 @@ export default function HomePage({ setPagina }) {
         setSearch(event.target.value)
     }
 
-    const tasks = [
+    const [tasks, setTasks] = useState([
         {
             id: 1,
             name: "Estudar Cálculo",
@@ -128,7 +128,20 @@ export default function HomePage({ setPagina }) {
                 time: "23:59:59"
             }
         }
-    ]
+    ])
+
+    function completeTask(id) {
+        setTasks(tasks.map(task => {
+            if (task.id == id) {
+                if (task.category === "completed") {
+                    return { ...task, category: "in_progress" }
+                } else {
+                    return { ...task, category: "completed" }
+                }
+            }
+            return task;
+        }));
+    }
 
     const filteredTasks = tasks.filter(task =>
         task.name.toLowerCase().includes(search.toLowerCase())
@@ -152,7 +165,7 @@ export default function HomePage({ setPagina }) {
                     <p className='category-title'>Em Andamento ({tasks.filter(task => task.category === 'in_progress').length})</p>
                     {filteredTasks.map(task => (
                         task.category === 'in_progress' && (
-                            <TaskCard task={task} key={task.id} />
+                            <TaskCard task={task} key={task.id} completeTask={completeTask} />
                         )
                     ))}
                 </div>
@@ -160,7 +173,7 @@ export default function HomePage({ setPagina }) {
                     <p className='category-title'>Concluídas ({tasks.filter(task => task.category === 'completed').length})</p>
                     {filteredTasks.map(task => (
                         task.category === 'completed' && (
-                            <TaskCard task={task} key={task.id} />
+                            <TaskCard task={task} key={task.id} completeTask={completeTask} />
                         )
                     ))}
                 </div>
@@ -168,7 +181,7 @@ export default function HomePage({ setPagina }) {
                     <p className='category-title'>Atrasadas ({tasks.filter(task => task.category === 'overdue').length})</p>
                     {filteredTasks.map(task => (
                         task.category === 'overdue' && (
-                            <TaskCard task={task} key={task.id} />
+                            <TaskCard task={task} key={task.id} completeTask={completeTask} />
                         )
                     ))}
                 </div>
