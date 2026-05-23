@@ -1,10 +1,14 @@
 import './HomePage.css';
 import { BiSortAlt2 } from "react-icons/bi";
 import TopBar from "../../components/TopBar/TopBar.jsx";
+import SideBar from "../../components/SideBar/SideBar.jsx";
 import SearchBar from "../../components/SearchBar/SearchBar.jsx";
 import TaskCard from '../../components/TaskCard/TaskCard.jsx';
+import Notification from "../notifications/noti.jsx"
+import lixo from "../lixo/lixo.jsx"
+import { useState } from "react"
 
-export default function HomePage() {
+export default function HomePage({setPagina}) {
 
     const tasks = [
         {
@@ -122,7 +126,7 @@ export default function HomePage() {
 
     return (
         <div className="home-bg">
-            <TopBar />
+            <TopBar setPagina={setPagina} />
             <div className="search-position">
                 <SearchBar />
             </div>
@@ -156,7 +160,10 @@ export default function HomePage() {
                     ))}
                 </div>
             </div>
-
+            <SideBar
+                paginaAtual="home"
+                setPagina={setPagina}
+            />
         </div>
     )
 }
