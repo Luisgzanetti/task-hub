@@ -7,7 +7,7 @@ import { BiSolidTrashAlt } from "react-icons/bi";
 import { BiCheck } from "react-icons/bi";
 
 
-export default function TaskCard({ task, completeTask }) {
+export default function TaskCard({ task, completeTask, deleteTask }) {
 
     const [details, setDetails] = useState(false)
     const handleDropdownClick = () => {
@@ -39,7 +39,7 @@ export default function TaskCard({ task, completeTask }) {
                     <p className='task-description'>Descrição: {task.description}</p>
                     <div className='details-buttons'>
                         <BiPencil size={32} className='edit-btn' />
-                        <BiSolidTrashAlt size={32} className='delete-btn' />
+                        <BiSolidTrashAlt size={32} className='delete-btn' onClick={() => deleteTask(task.id)} />
                     </div>
                 </div>
             )}
