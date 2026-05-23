@@ -43,6 +43,6 @@ O projeto será iniciado e geralmente estará acessível em ```http://localhost:
 (Completem depois com o nome inteiro)
 - Jõao
 - Júlia
-- Laysa
+- Laysa Almeida Oliveira
 - Luis Guilherme Zanetti
 
