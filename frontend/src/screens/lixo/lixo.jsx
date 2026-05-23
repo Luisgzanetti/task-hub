@@ -1,13 +1,19 @@
 import './Lixo.css'
 
-import TopBar from '../../components/TopBar/TopBar.jsx'
-import SideBar from '../../components/SideBar/SideBar.jsx'
+import { useState } from "react"
+
+import TopBar from '../../components/TopBar/TopBar'
+import SideBar from '../../components/SideBar/SideBar'
 
 import { BiTime } from "react-icons/bi";
 
 export default function Lixo({ setPagina }) {
 
-    const tarefas = [
+    const [mostrarModal, setMostrarModal] = useState(false)
+
+    const [tarefaSelecionada, setTarefaSelecionada] = useState(null)
+
+    const [tarefas, setTarefas] = useState([
         {
             id: 1,
             nome: "Nome",
@@ -18,15 +24,40 @@ export default function Lixo({ setPagina }) {
             id: 2,
             nome: "Nome",
             prazo: "XX:XX",
-            categoria: "Atrasada"
+            categoria: "Em progresso"
         },
         {
             id: 3,
             nome: "Nome",
             prazo: "XX:XX",
+            categoria: "Atrasada"
+        },
+        {
+            id: 4,
+            nome: "Nome",
+            prazo: "XX:XX",
             categoria: "Concluída"
         }
-    ]
+    ])
+
+    function restaurarTarefa() {
+
+        let novasTarefas = []
+
+        for (let i = 0; i < tarefas.length; i++) {
+
+            if (tarefas[i].id !== tarefaSelecionada) {
+
+                novasTarefas.push(tarefas[i])
+
+            }
+
+        }
+
+        setTarefas(novasTarefas)
+
+        setMostrarModal(false)
+    }
 
     return (
         <div className="lixo-bg">
@@ -36,142 +67,249 @@ export default function Lixo({ setPagina }) {
             <div className="lixo-content">
 
                 <h1 className="lixo-title">
-                    Tarefas excluídas (5)
+                    Tarefas excluídas ({tarefas.length})
                 </h1>
 
+                {/* EM ANDAMENTO */}
+
                 <div className="lixo-section">
 
                     <h2 className="lixo-subtitle">
-                        Em andamento (1)
+                        Em andamento (
+                        {
+                            tarefas.filter(
+                                task => task.categoria === "Em progresso"
+                            ).length
+                        }
+                        )
                     </h2>
 
-                    {tarefas.map(task => (
-                        task.categoria === "Em progresso" && (
+                    {
+                        tarefas.map(task => (
 
-                            <div className="lixo-card" key={task.id}>
+                            task.categoria === "Em progresso" && (
 
-                                <div className="lixo-card-top">
+                                <div
+                                    className="lixo-card"
+                                    key={task.id}
+                                >
 
-                                    <h3>{task.nome}</h3>
+                                    <div className="lixo-card-top">
 
-                                    <span className="status andamento">
-                                        Em progresso
-                                    </span>
+                                        <h3>{task.nome}</h3>
 
-                                </div>
-
-                                <div className="lixo-card-bottom">
-
-                                    <div className="lixo-prazo">
-
-                                        <BiTime size={18} />
-
-                                        <p>Prazo, {task.prazo}</p>
+                                        <span className="status andamento">
+                                            Em progresso
+                                        </span>
 
                                     </div>
 
-                                    <button className="restaurar-button">
-                                        Restaurar tarefa
-                                    </button>
+                                    <div className="lixo-card-bottom">
+
+                                        <div className="lixo-prazo">
+
+                                            <BiTime size={18} />
+
+                                            <p>Prazo, {task.prazo}</p>
+
+                                        </div>
+
+                                        <button
+                                            className="restaurar-button"
+                                            onClick={() => {
+                                                setMostrarModal(true)
+                                                setTarefaSelecionada(task.id)
+                                            }}
+                                        >
+                                            Restaurar tarefa
+                                        </button>
+
+                                    </div>
 
                                 </div>
 
-                            </div>
+                            )
 
-                        )
-                    ))}
+                        ))
+                    }
 
                 </div>
 
+                {/* ATRASADAS */}
+
                 <div className="lixo-section">
 
                     <h2 className="lixo-subtitle">
-                        Atrasadas (1)
+                        Atrasadas (
+                        {
+                            tarefas.filter(
+                                task => task.categoria === "Atrasada"
+                            ).length
+                        }
+                        )
                     </h2>
 
-                    {tarefas.map(task => (
-                        task.categoria === "Atrasada" && (
+                    {
+                        tarefas.map(task => (
 
-                            <div className="lixo-card" key={task.id}>
+                            task.categoria === "Atrasada" && (
 
-                                <div className="lixo-card-top">
+                                <div
+                                    className="lixo-card"
+                                    key={task.id}
+                                >
 
-                                    <h3>{task.nome}</h3>
+                                    <div className="lixo-card-top">
 
-                                    <span className="status atrasada">
-                                        Atrasada
-                                    </span>
+                                        <h3>{task.nome}</h3>
 
-                                </div>
-
-                                <div className="lixo-card-bottom">
-
-                                    <div className="lixo-prazo">
-
-                                        <BiTime size={18} />
-
-                                        <p>Prazo, {task.prazo}</p>
+                                        <span className="status atrasada">
+                                            Atrasada
+                                        </span>
 
                                     </div>
 
-                                    <button className="restaurar-button">
-                                        Restaurar tarefa
-                                    </button>
+                                    <div className="lixo-card-bottom">
+
+                                        <div className="lixo-prazo">
+
+                                            <BiTime size={18} />
+
+                                            <p>Prazo, {task.prazo}</p>
+
+                                        </div>
+
+                                        <button
+                                            className="restaurar-button"
+                                            onClick={() => {
+                                                setMostrarModal(true)
+                                                setTarefaSelecionada(task.id)
+                                            }}
+                                        >
+                                            Restaurar tarefa
+                                        </button>
+
+                                    </div>
 
                                 </div>
 
-                            </div>
+                            )
 
-                        )
-                    ))}
+                        ))
+                    }
 
                 </div>
 
+                {/* CONCLUÍDAS */}
+
                 <div className="lixo-section">
 
                     <h2 className="lixo-subtitle">
-                        Concluídas (1)
+                        Concluídas (
+                        {
+                            tarefas.filter(
+                                task => task.categoria === "Concluída"
+                            ).length
+                        }
+                        )
                     </h2>
 
-                    {tarefas.map(task => (
-                        task.categoria === "Concluída" && (
+                    {
+                        tarefas.map(task => (
 
-                            <div className="lixo-card" key={task.id}>
+                            task.categoria === "Concluída" && (
 
-                                <div className="lixo-card-top">
+                                <div
+                                    className="lixo-card"
+                                    key={task.id}
+                                >
 
-                                    <h3>{task.nome}</h3>
+                                    <div className="lixo-card-top">
 
-                                    <span className="status concluida">
-                                        Concluída
-                                    </span>
+                                        <h3>{task.nome}</h3>
 
-                                </div>
-
-                                <div className="lixo-card-bottom">
-
-                                    <div className="lixo-prazo">
-
-                                        <BiTime size={18} />
-
-                                        <p>Prazo, {task.prazo}</p>
+                                        <span className="status concluida">
+                                            Concluída
+                                        </span>
 
                                     </div>
 
-                                    <button className="restaurar-button">
-                                        Restaurar tarefa
-                                    </button>
+                                    <div className="lixo-card-bottom">
+
+                                        <div className="lixo-prazo">
+
+                                            <BiTime size={18} />
+
+                                            <p>Prazo, {task.prazo}</p>
+
+                                        </div>
+
+                                        <button
+                                            className="restaurar-button"
+                                            onClick={() => {
+                                                setMostrarModal(true)
+                                                setTarefaSelecionada(task.id)
+                                            }}
+                                        >
+                                            Restaurar tarefa
+                                        </button>
+
+                                    </div>
 
                                 </div>
 
-                            </div>
+                            )
 
-                        )
-                    ))}
+                        ))
+                    }
 
                 </div>
 
             </div>
+
+            {
+                mostrarModal && (
+
+                    <div className="modal-overlay">
+
+                        <div className="modal-card">
+
+                            <div className="modal-top">
+
+                                <span>(!)</span>
+
+                            </div>
+
+                            <div className="modal-content">
+
+                                <h1>
+                                    Restaurar tarefa
+                                </h1>
+
+                                <div className="modal-buttons">
+
+                                    <button
+                                        onClick={restaurarTarefa}
+                                    >
+                                        SIM
+                                    </button>
+
+                                    <button
+                                        onClick={() => setMostrarModal(false)}
+                                    >
+                                        NÃO
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                )
+            }
 
             <SideBar
                 paginaAtual="lixo"
