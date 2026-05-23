@@ -18,7 +18,11 @@
 }
 
 .total-tasks-display {
-    margin: 10px 20px;
+    margin-bottom: 0px;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -8,7 +8,13 @@ import Notification from "../notifications/noti.jsx"
 import lixo from "../lixo/lixo.jsx"
 import { useState } from "react"
 
-export default function HomePage({setPagina}) {
+export default function HomePage({ setPagina }) {
+
+    const [search, setSearch] = useState("")
+
+    function handleChangeSearch(event) {
+        setSearch(event.target.value)
+    }
 
     const tasks = [
         {
@@ -124,11 +130,18 @@ export default function HomePage({setPagina}) {
         }
     ]
 
+    const filteredTasks = tasks.filter(task =>
+        task.name.toLowerCase().includes(search.toLowerCase())
+    )
+
     return (
         <div className="home-bg">
             <TopBar setPagina={setPagina} />
             <div className="search-position">
-                <SearchBar />
+                <SearchBar
+                    search={search}
+                    handleChangeSearch={handleChangeSearch}
+                />
             </div>
             <div className='total-tasks-display'>
                 <p className='total-tasks-text'>Minhas Tarefas ({tasks.length})</p>
@@ -137,7 +150,7 @@ export default function HomePage({setPagina}) {
             <div className='tasks-display'>
                 <div className='category-tasks'>
                     <p className='category-title'>Em Andamento ({tasks.filter(task => task.category === 'in_progress').length})</p>
-                    {tasks.map(task => (
+                    {filteredTasks.map(task => (
                         task.category === 'in_progress' && (
                             <TaskCard task={task} key={task.id} />
                         )
@@ -145,7 +158,7 @@ export default function HomePage({setPagina}) {
                 </div>
                 <div className='category-tasks'>
                     <p className='category-title'>Concluídas ({tasks.filter(task => task.category === 'completed').length})</p>
-                    {tasks.map(task => (
+                    {filteredTasks.map(task => (
                         task.category === 'completed' && (
                             <TaskCard task={task} key={task.id} />
                         )
@@ -153,7 +166,7 @@ export default function HomePage({setPagina}) {
                 </div>
                 <div className='category-tasks'>
                     <p className='category-title'>Atrasadas ({tasks.filter(task => task.category === 'overdue').length})</p>
-                    {tasks.map(task => (
+                    {filteredTasks.map(task => (
                         task.category === 'overdue' && (
                             <TaskCard task={task} key={task.id} />
                         )
