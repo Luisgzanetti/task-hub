@@ -40,9 +40,8 @@ O projeto será iniciado e geralmente estará acessível em ```http://localhost:
 - **React-router** para controlar a navegação interna do app
 
 ## Membros do grupo
-(Completem depois com o nome inteiro)
-- Jõao
-- Júlia
+- João de Camargo Pinto
+- Júlia Barbosa Nogueira
 - Laysa Almeida Oliveira
 - Luis Guilherme Zanetti
 
