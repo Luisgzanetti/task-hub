@@ -1,4 +1,4 @@
-import './Lixo.css'
+import './lixo.css'
 
 import { useState } from "react"
 
@@ -267,6 +267,11 @@ export default function Lixo({ setPagina }) {
 
             </div>
 
+            <SideBar
+                paginaAtual="lixo"
+                setPagina={setPagina}
+            />
+
             {
                 mostrarModal && (
 
@@ -310,11 +315,6 @@ export default function Lixo({ setPagina }) {
 
                 )
             }
-
-            <SideBar
-                paginaAtual="lixo"
-                setPagina={setPagina}
-            />
 
         </div>
     )

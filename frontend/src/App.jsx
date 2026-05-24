@@ -4,6 +4,7 @@ import LoginPage from "./screens/login/LoginPage"
 import HomePage from "./screens/home/HomePage"
 import Lixo from "./screens/lixo/Lixo"
 import Notification from "./screens/notifications/noti"
+import User from "./screens/usuario/Usuario"
 
 export default function App() {
 
@@ -23,5 +24,9 @@ export default function App() {
 
     if (pagina === "home") {
         return <HomePage setPagina={setPagina} />
+    }
+
+    if (pagina === "user") {
+        return <User setPagina={setPagina} />
     }
 }
