@@ -1,10 +1,10 @@
 import { useState } from "react"
-
+import { AppProvider } from "./context/AppContext";
 import LoginPage from "./screens/login/LoginPage"
 import HomePage from "./screens/home/HomePage"
 import Lixo from "./screens/lixo/lixo";
 import Notification from "./screens/notifications/noti"
-import Inicio from "./screens/inicio/Inicio" 
+import Inicio from "./screens/inicio/Inicio"
 import Cadastro from "./screens/cadastro/Cadastro"
 import RecuperarSenha from "./screens/recuperar-senha/Recuperar";
 import User from "./screens/usuario/Usuario"
@@ -14,34 +14,66 @@ export default function App() {
     const [pagina, setPagina] = useState("inicio")
 
     if (pagina === "inicio") {
-        return <Inicio setPagina={setPagina} />
+        return (
+            <AppProvider>
+                <Inicio setPagina={setPagina} />
+            </AppProvider>
+        )
     }
 
     if (pagina === "cadastro") {
-        return <Cadastro setPagina={setPagina} />
+        return (
+            <AppProvider>
+                <Cadastro setPagina={setPagina} />
+            </AppProvider>
+        )
     }
 
     if (pagina === "notification") {
-        return <Notification setPagina={setPagina} />       
+        return (
+            <AppProvider>
+                <Notification setPagina={setPagina} />
+            </AppProvider>
+        )
     }
 
     if (pagina === "login") {
-        return <LoginPage setPagina={setPagina} />
+        return (
+            <AppProvider>
+                <LoginPage setPagina={setPagina} />
+            </AppProvider>
+        )
     }
 
     if (pagina === "lixo") {
-        return <Lixo setPagina={setPagina} />
+        return (
+            <AppProvider>
+                <Lixo setPagina={setPagina} />
+            </AppProvider>
+        )
     }
 
     if (pagina === "home") {
-        return <HomePage setPagina={setPagina} />
+        return (
+            <AppProvider>
+                <HomePage setPagina={setPagina} />
+            </AppProvider>
+        )
     }
 
     if (pagina === "recuperar") {
-        return <RecuperarSenha setPagina={setPagina} />
+        return (
+            <AppProvider>
+                <RecuperarSenha setPagina={setPagina} />
+            </AppProvider>
+        )
     }
-    
+
     if (pagina === "user") {
-        return <User setPagina={setPagina} />
+        return (
+            <AppProvider>
+                <User setPagina={setPagina} />
+            </AppProvider>
+        )
     }
 }

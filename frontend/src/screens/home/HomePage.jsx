@@ -8,129 +8,17 @@ import DeleteConfirmCard from '../../components/DeleteConfirmCard/DeleteConfirmC
 import Notification from "../notifications/noti.jsx"
 import lixo from "../lixo/lixo.jsx"
 import { useState } from "react"
+import { useApp } from '../../context/AppContext.jsx';
 
 export default function HomePage({ setPagina }) {
 
+    const { tasks, setTasks } = useApp()
     const [search, setSearch] = useState("")
     const [deleteTaskId, setDeleteTaskId] = useState(null)
 
     function handleChangeSearch(event) {
         setSearch(event.target.value)
     }
-
-    const [tasks, setTasks] = useState([
-        {
-            id: 1,
-            name: "Estudar Cálculo",
-            description: ".....................................................................................",
-            category: "Em progresso",
-            createdAt: "2025-05-23T00:00:00",
-            dueDate: {
-                date: "2025-06-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 2,
-            name: "Lavar louça",
-            category: "Concluída",
-            createdAt: "2025-05-20T00:00:00",
-            dueDate: {
-                date: "2025-05-25",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 3,
-            name: "Pagar contas",
-            category: "Atrasada",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 4,
-            name: "Pagar contas",
-            category: "Em progresso",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 5,
-            name: "Pagar contas",
-            category: "Concluída",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 6,
-            name: "Pagar contas",
-            category: "Atrasada",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 7,
-            name: "Pagar contas",
-            category: "Em progresso",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 8,
-            name: "Pagar contas",
-            category: "Concluída",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 9,
-            name: "Pagar contas",
-            category: "Atrasada",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 10,
-            name: "Pagar contas",
-            category: "Concluída",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 11,
-            name: "Pagar contas",
-            category: "Em progresso",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        }
-    ])
 
     function completeTask(id) {
         setTasks(tasks.map(task => {
@@ -169,6 +57,14 @@ export default function HomePage({ setPagina }) {
             </div>
             <div className='tasks-display'>
                 <div className='category-tasks'>
+                    <p className='category-title'>Atrasadas ({tasks.filter(task => task.category === 'Atrasada').length})</p>
+                    {filteredTasks.map(task => (
+                        task.category === 'Atrasada' && (
+                            <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} />
+                        )
+                    ))}
+                </div>
+                <div className='category-tasks'>
                     <p className='category-title'>Em Andamento ({tasks.filter(task => task.category === 'Em progresso').length})</p>
                     {filteredTasks.map(task => (
                         task.category === 'Em progresso' && (
@@ -180,14 +76,6 @@ export default function HomePage({ setPagina }) {
                     <p className='category-title'>Concluídas ({tasks.filter(task => task.category === 'Concluída').length})</p>
                     {filteredTasks.map(task => (
                         task.category === 'Concluída' && (
-                            <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} />
-                        )
-                    ))}
-                </div>
-                <div className='category-tasks'>
-                    <p className='category-title'>Atrasadas ({tasks.filter(task => task.category === 'Atrasada').length})</p>
-                    {filteredTasks.map(task => (
-                        task.category === 'Atrasada' && (
                             <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} />
                         )
                     ))}
