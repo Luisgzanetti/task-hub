@@ -1,4 +1,4 @@
-import './Lixo.css'
+import './lixo.css'
 
 import { useState } from "react"
 

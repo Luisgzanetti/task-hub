@@ -2,12 +2,23 @@ import { useState } from "react"
 
 import LoginPage from "./screens/login/LoginPage"
 import HomePage from "./screens/home/HomePage"
-import Lixo from "./screens/lixo/Lixo"
+import Lixo from "./screens/lixo/lixo";
 import Notification from "./screens/notifications/noti"
+import Inicio from "./screens/inicio/Inicio" 
+import Cadastro from "./screens/cadastro/Cadastro"
+import RecuperarSenha from "./screens/recuperar-senha/Recuperar";
 
 export default function App() {
 
-    const [pagina, setPagina] = useState("login")
+    const [pagina, setPagina] = useState("inicio")
+
+    if (pagina === "inicio") {
+        return <Inicio setPagina={setPagina} />
+    }
+
+    if (pagina === "cadastro") {
+        return <Cadastro setPagina={setPagina} />
+    }
 
     if (pagina === "notification") {
         return <Notification setPagina={setPagina} />       
@@ -23,5 +34,9 @@ export default function App() {
 
     if (pagina === "home") {
         return <HomePage setPagina={setPagina} />
+    }
+
+    if (pagina === "recuperar") {
+        return <RecuperarSenha setPagina={setPagina} />
     }
 }
