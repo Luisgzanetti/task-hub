@@ -17,8 +17,8 @@ export default function TaskCard({ task, completeTask, deleteTask }) {
     return (
         <div className="task-card">
             <div className='task-top-content'>
-                <button className={`complete-btn ${task.category === 'completed' ? 'complete-btn-active' : ''}`} onClick={() => completeTask(task.id)}>
-                    {task.category === "completed" && <BiCheck size={24} color='white' />}
+                <button className={`complete-btn ${task.category === 'Concluída' ? 'complete-btn-active' : ''}`} onClick={() => completeTask(task.id)}>
+                    {task.category === "Concluída" && <BiCheck size={24} color='white' />}
                 </button>
                 <div className='task-content'>
                     <div className='task-title-display'>
@@ -30,7 +30,7 @@ export default function TaskCard({ task, completeTask, deleteTask }) {
                         <p className='due-date-text'>Prazo: {task.dueDate.time}</p>
                     </div>
                 </div>
-                <div className={`task-category-card ${task.category === 'overdue' ? 'overdue-category' : task.category === 'in_progress' ? 'in_progress-category' : 'completed-category'}`}>
+                <div className={`task-category-card ${task.category === 'Atrasada' ? 'overdue-category' : task.category === 'Em progresso' ? 'in_progress-category' : 'completed-category'}`}>
                     <p className='task-category-text'>{task.category}</p>
                 </div>
             </div>
