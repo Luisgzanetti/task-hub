@@ -23,7 +23,7 @@ export default function HomePage({ setPagina }) {
             id: 1,
             name: "Estudar Cálculo",
             description: ".....................................................................................",
-            category: "in_progress",
+            category: "Em progresso",
             createdAt: "2025-05-23T00:00:00",
             dueDate: {
                 date: "2025-06-05",
@@ -33,7 +33,7 @@ export default function HomePage({ setPagina }) {
         {
             id: 2,
             name: "Lavar louça",
-            category: "completed",
+            category: "Concluída",
             createdAt: "2025-05-20T00:00:00",
             dueDate: {
                 date: "2025-05-25",
@@ -43,7 +43,7 @@ export default function HomePage({ setPagina }) {
         {
             id: 3,
             name: "Pagar contas",
-            category: "overdue",
+            category: "Atrasada",
             createdAt: "2025-04-01T00:00:00",
             dueDate: {
                 date: "2025-04-05",
@@ -53,7 +53,7 @@ export default function HomePage({ setPagina }) {
         {
             id: 4,
             name: "Pagar contas",
-            category: "in_progress",
+            category: "Em progresso",
             createdAt: "2025-04-01T00:00:00",
             dueDate: {
                 date: "2025-04-05",
@@ -63,7 +63,7 @@ export default function HomePage({ setPagina }) {
         {
             id: 5,
             name: "Pagar contas",
-            category: "completed",
+            category: "Concluída",
             createdAt: "2025-04-01T00:00:00",
             dueDate: {
                 date: "2025-04-05",
@@ -73,7 +73,7 @@ export default function HomePage({ setPagina }) {
         {
             id: 6,
             name: "Pagar contas",
-            category: "overdue",
+            category: "Atrasada",
             createdAt: "2025-04-01T00:00:00",
             dueDate: {
                 date: "2025-04-05",
@@ -83,7 +83,7 @@ export default function HomePage({ setPagina }) {
         {
             id: 7,
             name: "Pagar contas",
-            category: "in_progress",
+            category: "Em progresso",
             createdAt: "2025-04-01T00:00:00",
             dueDate: {
                 date: "2025-04-05",
@@ -93,7 +93,7 @@ export default function HomePage({ setPagina }) {
         {
             id: 8,
             name: "Pagar contas",
-            category: "completed",
+            category: "Concluída",
             createdAt: "2025-04-01T00:00:00",
             dueDate: {
                 date: "2025-04-05",
@@ -103,7 +103,7 @@ export default function HomePage({ setPagina }) {
         {
             id: 9,
             name: "Pagar contas",
-            category: "overdue",
+            category: "Atrasada",
             createdAt: "2025-04-01T00:00:00",
             dueDate: {
                 date: "2025-04-05",
@@ -113,7 +113,7 @@ export default function HomePage({ setPagina }) {
         {
             id: 10,
             name: "Pagar contas",
-            category: "completed",
+            category: "Concluída",
             createdAt: "2025-04-01T00:00:00",
             dueDate: {
                 date: "2025-04-05",
@@ -123,7 +123,7 @@ export default function HomePage({ setPagina }) {
         {
             id: 11,
             name: "Pagar contas",
-            category: "in_progress",
+            category: "Em progresso",
             createdAt: "2025-04-01T00:00:00",
             dueDate: {
                 date: "2025-04-05",
@@ -135,10 +135,10 @@ export default function HomePage({ setPagina }) {
     function completeTask(id) {
         setTasks(tasks.map(task => {
             if (task.id == id) {
-                if (task.category === "completed") {
-                    return { ...task, category: "in_progress" }
+                if (task.category === "Concluída") {
+                    return { ...task, category: "Em progresso" }
                 } else {
-                    return { ...task, category: "completed" }
+                    return { ...task, category: "Concluída" }
                 }
             }
             return task;
@@ -169,25 +169,25 @@ export default function HomePage({ setPagina }) {
             </div>
             <div className='tasks-display'>
                 <div className='category-tasks'>
-                    <p className='category-title'>Em Andamento ({tasks.filter(task => task.category === 'in_progress').length})</p>
+                    <p className='category-title'>Em Andamento ({tasks.filter(task => task.category === 'Em progresso').length})</p>
                     {filteredTasks.map(task => (
-                        task.category === 'in_progress' && (
+                        task.category === 'Em progresso' && (
                             <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} />
                         )
                     ))}
                 </div>
                 <div className='category-tasks'>
-                    <p className='category-title'>Concluídas ({tasks.filter(task => task.category === 'completed').length})</p>
+                    <p className='category-title'>Concluídas ({tasks.filter(task => task.category === 'Concluída').length})</p>
                     {filteredTasks.map(task => (
-                        task.category === 'completed' && (
+                        task.category === 'Concluída' && (
                             <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} />
                         )
                     ))}
                 </div>
                 <div className='category-tasks'>
-                    <p className='category-title'>Atrasadas ({tasks.filter(task => task.category === 'overdue').length})</p>
+                    <p className='category-title'>Atrasadas ({tasks.filter(task => task.category === 'Atrasada').length})</p>
                     {filteredTasks.map(task => (
-                        task.category === 'overdue' && (
+                        task.category === 'Atrasada' && (
                             <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} />
                         )
                     ))}
