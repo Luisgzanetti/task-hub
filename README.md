@@ -1,4 +1,4 @@
-# task-hub
+# TashHub
 Projeto Trainee do ICMC Júnior.
 
 ## Como Rodar o Projeto 
