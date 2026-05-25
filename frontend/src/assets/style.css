@@ -1,4 +1,6 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
+
+body, h1, label, input, a, button {
   font-family: "Bree Serif", serif;
   color: black;
   margin: 0;
@@ -15,7 +17,7 @@ body {
 }
 
 .fundo-bege {
-  background-color: #e6ddd9;
+  background-color: #E5DDD8;
   width: 100%;
   min-height: 100vh; /* O fundo vai ocupar a tela inteira */
   display: flex;
@@ -45,13 +47,13 @@ body {
 }
 
 .botao {
-  background-color: #e5ddd8;
+  background-color: #E5DDD8;
   text-decoration: none;
   color: black;
   width: 300px; /* Largura do botão */
   padding: 10px 0; /* Espaço interno pra dar volume pro botão*/
   border-radius: 80px;
-  font-size: 20px;
+  font-size: 26px;
 }
 
 .borda-img {
@@ -94,7 +96,7 @@ h1 {
   text-align: center;
   margin-top: 30px;
   margin-bottom: 45px;
-  font-size: 32px;
+  font-size: 36px;
 }
 
 /*============Formulários e INPUTS============*/
@@ -113,7 +115,7 @@ h1 {
 
 .digitar label {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 5px;
   margin-left: 10px;
 }
@@ -131,15 +133,15 @@ h1 {
 .icone-olho {
   position: absolute;
   right: 15px;
-  top: 38px;
-  width: 24px; /* Tamanho do olho */
+  top: 46px;
+  width: 28px; /* Tamanho do olho */
   cursor: pointer;
 }
 
 .link-senha,
 .esqueceu-senha {
   text-align: center;
-  font-size: 16px;
+  font-size: 18px;
   color: black;
   text-decoration: none;
   font-weight: bold;

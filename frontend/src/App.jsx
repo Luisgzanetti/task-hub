@@ -7,6 +7,7 @@ import Notification from "./screens/notifications/noti"
 import Inicio from "./screens/inicio/Inicio" 
 import Cadastro from "./screens/cadastro/Cadastro"
 import RecuperarSenha from "./screens/recuperar-senha/Recuperar";
+import User from "./screens/usuario/Usuario"
 
 export default function App() {
 
@@ -38,5 +39,9 @@ export default function App() {
 
     if (pagina === "recuperar") {
         return <RecuperarSenha setPagina={setPagina} />
+    }
+    
+    if (pagina === "user") {
+        return <User setPagina={setPagina} />
     }
 }

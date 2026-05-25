@@ -104,7 +104,128 @@
     cursor: pointer;
 
     font-size: 12px;
+
+    transition: 0.2s ease;
 }
+
+.restaurar-button:hover {
+    transform: scale(1.03);
+}
+
+/* ================= MODAL ================= */
+
+.modal-overlay {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100dvh;
+
+    background-color: rgba(0, 0, 0, 0.25);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+
+    z-index: 999999;
+}
+
+.modal-card {
+    width: 85%;
+    max-width: 400px;
+
+    background-color: white;
+
+    border-radius: 28px;
+
+    overflow: hidden;
+
+    position: relative;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+
+    animation: aparecer 0.2s ease;
+
+    transform: translateZ(0);
+}
+
+.modal-top {
+    height: 85px;
+
+    background-color: #05d7ef;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-top span {
+    font-size: 52px;
+    font-weight: bold;
+}
+
+.modal-content {
+    padding: 40px 20px;
+}
+
+.modal-content h1 {
+    text-align: center;
+
+    font-size: 40px;
+
+    margin-bottom: 50px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+
+    gap: 20px;
+}
+
+.modal-buttons button {
+    border: none;
+
+    background-color: #5b1147;
+
+    color: white;
+
+    font-weight: 700;
+    font-size: 22px;
+
+    border-radius: 999px;
+
+    width: 140px;
+    height: 52px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.modal-buttons button:hover {
+    transform: scale(1.03);
+}
+
+@keyframes aparecer {
+
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+/* ================= RESPONSIVO ================= */
 
 @media (max-width: 768px) {
 
@@ -125,96 +246,24 @@
         align-items: flex-start;
     }
 
-    .modal-overlay {
-        position: fixed;
-
-        inset: 0;
-
-        background-color: rgba(0, 0, 0, 0.2);
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        z-index: 2000;
-    }
-
-    .modal-card {
-        width: 85%;
-        max-width: 400px;
-
-        background-color: white;
-
-        border-radius: 28px;
-
-        overflow: hidden;
-
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-
-        animation: aparecer 0.2s ease;
-    }
-
-    .modal-top {
-        height: 85px;
-
-        background-color: #05d7ef;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal-top span {
-        font-size: 52px;
-        font-weight: bold;
-    }
-
-    .modal-content {
-        padding: 40px 20px;
-    }
-
     .modal-content h1 {
-        text-align: center;
+        font-size: 28px;
 
-        font-size: 40px;
-        margin-bottom: 50px;
+        margin-bottom: 35px;
     }
 
     .modal-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
+        flex-direction: column;
+        align-items: center;
     }
 
     .modal-buttons button {
-        border: none;
+        width: 100%;
+        max-width: 220px;
 
-        background-color: #5b1147;
+        height: 48px;
 
-        color: white;
-
-        font-weight: 700;
-        font-size: 22px;
-
-        border-radius: 999px;
-
-        width: 140px;
-        height: 52px;
-
-        cursor: pointer;
+        font-size: 18px;
     }
 
-    @keyframes aparecer {
-
-        from {
-            opacity: 0;
-            transform: scale(0.9);
-        }
-
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-    }
 }
