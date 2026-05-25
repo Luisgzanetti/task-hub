@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
+
+body, h1, label, input, a, button {
+  font-family: "Bree Serif", serif;
+  color: black;
+  margin: 0;
+  box-sizing: border-box; 
+}
+
+.fundo-roxo {
+  background-color: #4e1a3d;
+  width: 100%;
+  min-height: 100vh; /* O fundo vai ocupar a tela inteira */
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px;
+}
+
+.fundo-bege {
+  background-color: #E5DDD8;
+  width: 100%;
+  min-height: 100vh; /* O fundo vai ocupar a tela inteira */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#telainicial {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+#logo img {
+  width: 400px;
+  display: block;
+  margin: auto;
+}
+
+.botoes-inicio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+  font-weight: bold;
+  gap: 20px; /* Espaço entre o botão de Login e o de Cadastro */
+}
+
+.botao {
+  background-color: #E5DDD8;
+  text-decoration: none;
+  color: black;
+  width: 300px; /* Largura do botão */
+  padding: 10px 0; /* Espaço interno pra dar volume pro botão*/
+  border-radius: 80px;
+  font-size: 26px;
+}
+
+.borda-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-top: auto;
+}
+/*============Tela do Sistema============*/
+.tela-app {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 70px;
+}
+
+.cabecalho {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center; /* Mantém o logo no centro */
+  align-items: center;
+}
+
+.seta-voltar {
+  position: absolute;
+  left: 10px;
+  top: -50px;
+}
+
+.seta-voltar img {
+  width: 60px;
+}
+.logo-2 {
+  width: 350px;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 45px;
+  font-size: 36px;
+}
+
+/*============Formulários e INPUTS============*/
+.formulario {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Espaço entre o bloco de email e de senha */
+}
+
+.digitar {
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Cria a "prisão" pro ícone do olho */
+}
+
+.digitar label {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+}
+
+.digitar input {
+  background-color: white;
+  border-radius: 20px;
+  border: 2px solid black;
+  padding: 12px 15px;
+  font-family: inherit; /* Faz o input usar a fonte Bree Serif */
+  outline: none;
+  font-size: 18px;
+}
+
+.icone-olho {
+  position: absolute;
+  right: 15px;
+  top: 46px;
+  width: 28px; /* Tamanho do olho */
+  cursor: pointer;
+}
+
+.link-senha,
+.esqueceu-senha {
+  text-align: center;
+  font-size: 18px;
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 60px;
+}
+
+.botao-logar {
+  background-color: #4e1a3d;
+  color: white;
+  border-radius: 30px;
+  border: none;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 40%;
+  font-family: inherit;
+  align-self: center;
+  text-align: center;
+}
+
+.botao-cadastro {
+  margin-top: 40px;
+}
+
+/*============Aviso============*/
+.caixa-aviso {
+  width: 80%; /* Não ocupa a tela toda */
+  max-width: 400px;
+  margin: 40px auto;
+  border-radius: 30px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* Cria a sombra da caixa */
+  overflow: hidden; /* Não deixa as pontas quadradas das caixas de dentro vazarem pelo arredondado */
+}
+
+.aviso-topo {
+  background-color: #ff2768;
+  color: black;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.aviso-corpo {
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+}
+
+/*============Responsividade============*/
+@media (min-width: 768px) {
+  .formulario {
+    max-width: 600px; /* Estica as caixas de texto e os botões */
+  }
+}

@@ -41,7 +41,7 @@ export default function Usuario({ setPagina }) {
 
         setTimeout(() => {
             setMostrarModal(false)
-            setTela("menu")
+            setPagina("inicio")
         }, 2000)
 
     }
@@ -399,7 +399,7 @@ export default function Usuario({ setPagina }) {
 
                             <div className="logout-buttons">
 
-                                <button onClick={() => setPagina("login")}>
+                                <button onClick={() => setPagina("inicio")}>
                                     SIM
                                 </button>
 
