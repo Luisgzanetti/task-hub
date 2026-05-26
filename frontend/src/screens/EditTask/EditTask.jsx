@@ -60,8 +60,8 @@ export default function EditTask({ setPagina, taskId, setSelectedTaskId }) {
             <div className="inputs-div">
                 <Input title="Nome" placeholder={task.name} value={title} setValue={setTitle}></Input>
                 <Input title="Descrição" placeholder={task.description} value={description} setValue={setDescription}></Input>
-                <Input title="Data" placeholder={task.dueDate?.date} value={date} setValue={setDate}></Input>
-                <Input title="Hora" placeholder={task.dueDate?.time} value={time} setValue={setTime}></Input>
+                <Input title="Data" placeholder={task.dueDate?.date} value={date} setValue={setDate} type="date"></Input>
+                <Input title="Hora" placeholder={task.dueDate?.time} value={time} setValue={setTime} type="time"></Input>
             </div>
             <div className="button-div">
                 <Button onClick={() => { updateTask(); setPagina("home") }} label={"Editar"}></Button>
