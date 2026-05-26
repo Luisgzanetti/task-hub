@@ -6,7 +6,7 @@ export default function FilterCard({ setShowFilterOverlay, showOverdue, setShowO
     return (
         <div className="filter-overlay" onClick={() => setShowFilterOverlay(false)}>
             <div className="main-card" onClick={(e) => e.stopPropagation()}>
-                <div className="top-div">
+                <div className="filter-top-div">
                     <BiFilterAlt className="filter-icon" />
                 </div>
                 <h1 className="filter-title">Filtrar Tarefas</h1>

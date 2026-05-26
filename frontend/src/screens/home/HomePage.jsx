@@ -9,7 +9,7 @@ import FilterCard from '../../components/FilterCard/FilterCard.jsx';
 import { useState } from "react"
 import { useApp } from '../../context/AppContext.jsx';
 
-export default function HomePage({ setPagina }) {
+export default function HomePage({ setPagina, setSelectedTaskId }) {
 
     const { tasks, setTasks } = useApp()
     const [search, setSearch] = useState("")
@@ -64,7 +64,7 @@ export default function HomePage({ setPagina }) {
                         <p className='category-title'>Atrasadas ({tasks.filter(task => task.category === 'Atrasada').length})</p>
                         {filteredTasks.map(task => (
                             task.category === 'Atrasada' && (
-                                <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} />
+                                <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} setPagina={setPagina} setSelectedTaskId={setSelectedTaskId} />
                             )
                         ))}
                     </div>
@@ -74,7 +74,7 @@ export default function HomePage({ setPagina }) {
                         <p className='category-title'>Em Andamento ({tasks.filter(task => task.category === 'Em progresso').length})</p>
                         {filteredTasks.map(task => (
                             task.category === 'Em progresso' && (
-                                <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} />
+                                <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} setPagina={setPagina} setSelectedTaskId={setSelectedTaskId} />
                             )
                         ))}
                     </div>
@@ -84,7 +84,7 @@ export default function HomePage({ setPagina }) {
                         <p className='category-title'>Concluídas ({tasks.filter(task => task.category === 'Concluída').length})</p>
                         {filteredTasks.map(task => (
                             task.category === 'Concluída' && (
-                                <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} />
+                                <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} setPagina={setPagina} setSelectedTaskId={setSelectedTaskId} />
                             )
                         ))}
                     </div>

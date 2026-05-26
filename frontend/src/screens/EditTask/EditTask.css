@@ -1,0 +1,37 @@
+.home-bg {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    background-color: var(--bg-beige);
+
+    min-height: 100vh;
+
+    padding-bottom: 100px;
+}
+
+.preview-div {
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.inputs-div {
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.button-div {
+    margin-top: 30px;
+
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+}

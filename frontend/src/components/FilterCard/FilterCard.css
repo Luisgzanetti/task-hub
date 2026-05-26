@@ -34,7 +34,7 @@
     animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.top-div {
+.filter-top-div {
     background-color: var(--light-cyan);
     width: 100%;
     border-top-left-radius: 20px;

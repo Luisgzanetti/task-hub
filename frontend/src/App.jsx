@@ -8,10 +8,13 @@ import Inicio from "./screens/inicio/Inicio"
 import Cadastro from "./screens/cadastro/Cadastro"
 import RecuperarSenha from "./screens/recuperar-senha/Recuperar";
 import User from "./screens/usuario/Usuario"
+import EditTask from "./screens/EditTask/EditTask";
 
 export default function App() {
 
     const [pagina, setPagina] = useState("inicio")
+
+    const [selectedTaskId, setSelectedTaskId] = useState(null) // Essa variável só serve para a página de editar
 
     if (pagina === "inicio") {
         return (
@@ -56,7 +59,7 @@ export default function App() {
     if (pagina === "home") {
         return (
             <AppProvider>
-                <HomePage setPagina={setPagina} />
+                <HomePage setPagina={setPagina} setSelectedTaskId={setSelectedTaskId} />
             </AppProvider>
         )
     }
@@ -73,6 +76,14 @@ export default function App() {
         return (
             <AppProvider>
                 <User setPagina={setPagina} />
+            </AppProvider>
+        )
+    }
+
+    if (pagina == "edit") {
+        return (
+            <AppProvider>
+                <EditTask setPagina={setPagina} taskId={selectedTaskId} setSelectedTaskId={setSelectedTaskId} />
             </AppProvider>
         )
     }
