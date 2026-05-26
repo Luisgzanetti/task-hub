@@ -9,6 +9,7 @@ import Cadastro from "./screens/cadastro/Cadastro"
 import RecuperarSenha from "./screens/recuperar-senha/Recuperar";
 import User from "./screens/usuario/Usuario"
 import EditTask from "./screens/EditTask/EditTask";
+import AddTask from "./screens/AddTask/AddTask";
 
 export default function App() {
 
@@ -80,10 +81,18 @@ export default function App() {
         )
     }
 
-    if (pagina == "edit") {
+    if (pagina === "edit") {
         return (
             <AppProvider>
                 <EditTask setPagina={setPagina} taskId={selectedTaskId} setSelectedTaskId={setSelectedTaskId} />
+            </AppProvider>
+        )
+    }
+
+    if (pagina === "add") {
+        return (
+            <AppProvider>
+                <AddTask setPagina={setPagina} />
             </AppProvider>
         )
     }

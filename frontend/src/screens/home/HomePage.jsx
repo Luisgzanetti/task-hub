@@ -6,6 +6,7 @@ import SearchBar from "../../components/SearchBar/SearchBar.jsx";
 import TaskCard from '../../components/TaskCard/TaskCard.jsx';
 import DeleteConfirmCard from '../../components/DeleteConfirmCard/DeleteConfirmCard.jsx';
 import FilterCard from '../../components/FilterCard/FilterCard.jsx';
+import Button from '../../components/Button/Button.jsx';
 import { useState } from "react"
 import { useApp } from '../../context/AppContext.jsx';
 
@@ -89,6 +90,9 @@ export default function HomePage({ setPagina, setSelectedTaskId }) {
                         ))}
                     </div>
                 )}
+            </div>
+            <div className="button-div">
+                <Button onClick={() => setPagina("add")} label="Adicionar Tarefa" />
             </div>
             <SideBar
                 paginaAtual="home"
