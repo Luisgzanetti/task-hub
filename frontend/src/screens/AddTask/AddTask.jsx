@@ -46,8 +46,8 @@ export default function AddTask({ setPagina }) {
             <div className="inputs-div">
                 <Input title="Nome" value={title} setValue={setTitle}></Input>
                 <Input title="Descrição" value={description} setValue={setDescription}></Input>
-                <Input title="Data" value={date} setValue={setDate}></Input>
-                <Input title="Hora" value={time} setValue={setTime}></Input>
+                <Input title="Data" value={date} setValue={setDate} type="date"></Input>
+                <Input title="Hora" value={time} setValue={setTime} type="time"></Input>
             </div>
             <div className="button-div">
                 <Button onClick={() => { addTask(); setPagina("home") }} label={"Adicionar"}></Button>

@@ -27,7 +27,7 @@ export default function TaskCard({ task, completeTask, deleteTask, setPagina, se
                     </div>
                     <div className='due-date-container'>
                         <BiSolidTime size={24} />
-                        <p className='due-date-text'>Prazo: {task.dueDate.time}</p>
+                        <p className='due-date-text'>Prazo: {task.dueDate.date} / {task.dueDate.time}</p>
                     </div>
                 </div>
                 <div className={`task-category-card ${task.category === 'Atrasada' ? 'overdue-category' : task.category === 'Em progresso' ? 'in_progress-category' : 'completed-category'}`}>
@@ -36,7 +36,7 @@ export default function TaskCard({ task, completeTask, deleteTask, setPagina, se
             </div>
             {details && (
                 <div className='task-details'>
-                    <p className='task-description'>Descrição: {task.description}</p>
+                    <p className='task-description'>{task.description}</p>
                     <div className='details-buttons'>
                         <BiPencil size={32} className='edit-btn' onClick={() => { setSelectedTaskId(task.id); setPagina("edit") }} />
                         <BiSolidTrashAlt size={32} className='delete-btn' onClick={() => deleteTask(task.id)} />

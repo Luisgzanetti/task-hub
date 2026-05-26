@@ -61,3 +61,11 @@
     justify-content: center;
     align-items: center;
 }
+
+.no-tasks-text {
+    color: var(--text-black);
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+    margin-top: 50px;
+}
