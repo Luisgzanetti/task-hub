@@ -198,6 +198,6 @@ h1 {
 /*============Responsividade============*/
 @media (min-width: 768px) {
   .formulario {
-    max-width: 600px; /* Estica as caixas de texto e os botões */
+    max-width: 600px; 
   }
 }
