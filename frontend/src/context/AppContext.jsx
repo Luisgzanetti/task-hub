@@ -8,113 +8,50 @@ export function AppProvider({ children }) {
         {
             id: 1,
             name: "Estudar Cálculo",
-            description: ".....................................................................................",
+            description: "Revisar derivadas, integrais e limites.",
             category: "Em progresso",
             createdAt: "2025-05-23T00:00:00",
             dueDate: {
                 date: "2025-06-05",
                 time: "23:59:59"
-            }
+            },
+            deleted: false
         },
         {
             id: 2,
-            name: "Lavar louça",
+            name: "Lavar o carro",
+            description: "Levar o carro ao lava-jato e lavar por dentro e por fora.",
             category: "Concluída",
             createdAt: "2025-05-20T00:00:00",
             dueDate: {
                 date: "2025-05-25",
                 time: "23:59:59"
-            }
+            },
+            deleted: false
         },
         {
             id: 3,
             name: "Pagar contas",
+            description: "Pagar as contas de água, luz e internet.",
             category: "Atrasada",
             createdAt: "2025-04-01T00:00:00",
             dueDate: {
                 date: "2025-04-05",
                 time: "23:59:59"
-            }
+            },
+            deleted: false
         },
         {
             id: 4,
-            name: "Pagar contas",
+            name: "limpar o quarto",
+            description: "limpar o quarto e arrumar a cama",
             category: "Em progresso",
-            createdAt: "2025-04-01T00:00:00",
+            createdAt: "2025-05-26T00:00:00",
             dueDate: {
-                date: "2025-04-05",
+                date: "2025-05-26",
                 time: "23:59:59"
-            }
-        },
-        {
-            id: 5,
-            name: "Pagar contas",
-            category: "Concluída",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 6,
-            name: "Pagar contas",
-            category: "Atrasada",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 7,
-            name: "Pagar contas",
-            category: "Em progresso",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 8,
-            name: "Pagar contas",
-            category: "Concluída",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 9,
-            name: "Pagar contas",
-            category: "Atrasada",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 10,
-            name: "Pagar contas",
-            category: "Concluída",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 11,
-            name: "Pagar contas",
-            category: "Em progresso",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
+            },
+            deleted: true
         }
     ])
 

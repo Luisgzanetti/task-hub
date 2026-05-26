@@ -38,12 +38,17 @@ export default function HomePage({ setPagina, setSelectedTaskId }) {
     }
 
     function deleteTask(id) {
-        setTasks(tasks.filter(task => task.id !== id));
+        setTasks(tasks.map(task => {
+            if (task.id === id) {
+                return { ...task, deleted: true }
+            }
+            return task
+        }));
         setDeleteTaskId(null);
     }
 
     const filteredTasks = tasks.filter(task =>
-        task.name.toLowerCase().includes(search.toLowerCase())
+        !task.deleted && task.name.toLowerCase().includes(search.toLowerCase())
     )
 
     return (
@@ -56,13 +61,13 @@ export default function HomePage({ setPagina, setSelectedTaskId }) {
                 />
             </div>
             <div className='total-tasks-display'>
-                <p className='total-tasks-text'>Minhas Tarefas ({tasks.length})</p>
+                <p className='total-tasks-text'>Minhas Tarefas ({tasks.filter(task => !task.deleted).length})</p>
                 <BiSortAlt2 size={34} onClick={() => setShowFilterOverlay(true)} />
             </div>
             <div className='tasks-display'>
                 {showOverdue && (
                     <div className='category-tasks'>
-                        <p className='category-title'>Atrasadas ({tasks.filter(task => task.category === 'Atrasada').length})</p>
+                        <p className='category-title'>Atrasadas ({tasks.filter(task => task.category === 'Atrasada' && !task.deleted).length})</p>
                         {filteredTasks.map(task => (
                             task.category === 'Atrasada' && (
                                 <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} setPagina={setPagina} setSelectedTaskId={setSelectedTaskId} />
@@ -72,7 +77,7 @@ export default function HomePage({ setPagina, setSelectedTaskId }) {
                 )}
                 {showOngoing && (
                     <div className='category-tasks'>
-                        <p className='category-title'>Em Andamento ({tasks.filter(task => task.category === 'Em progresso').length})</p>
+                        <p className='category-title'>Em Andamento ({tasks.filter(task => task.category === 'Em progresso' && !task.deleted).length})</p>
                         {filteredTasks.map(task => (
                             task.category === 'Em progresso' && (
                                 <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} setPagina={setPagina} setSelectedTaskId={setSelectedTaskId} />
@@ -82,7 +87,7 @@ export default function HomePage({ setPagina, setSelectedTaskId }) {
                 )}
                 {showCompleted && (
                     <div className='category-tasks'>
-                        <p className='category-title'>Concluídas ({tasks.filter(task => task.category === 'Concluída').length})</p>
+                        <p className='category-title'>Concluídas ({tasks.filter(task => task.category === 'Concluída' && !task.deleted).length})</p>
                         {filteredTasks.map(task => (
                             task.category === 'Concluída' && (
                                 <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} setPagina={setPagina} setSelectedTaskId={setSelectedTaskId} />
