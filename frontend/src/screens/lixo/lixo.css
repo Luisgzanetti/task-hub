@@ -114,8 +114,6 @@
     transform: scale(1.03);
 }
 
-/* ================= MODAL ================= */
-
 .modal-overlay {
     position: fixed;
 
@@ -226,8 +224,6 @@
     }
 
 }
-
-/* ================= RESPONSIVO ================= */
 
 @media (max-width: 768px) {
 
