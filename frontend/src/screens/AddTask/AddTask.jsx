@@ -5,10 +5,11 @@ import TopBar from "../../components/TopBar/TopBar";
 import TaskCardModel from "../../components/TaskCardModel/TaskCardModel";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
+import { criarTarefa } from "../../services/api";
 
 export default function AddTask({ setPagina }) {
 
-    const { tasks, setTasks } = useApp();
+    const { carregarTarefas } = useApp();
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -23,18 +24,21 @@ export default function AddTask({ setPagina }) {
         category: category
     };
 
-    function addTask() {
-        setTasks(prevTasks => {
-            const nextId = prevTasks.length > 0 ? Math.max(...prevTasks.map(t => t.id)) + 1 : 1;
-            const newTask = {
-                id: nextId,
+    async function addTask() {
+        try {
+            await criarTarefa({
+                id_usuario: 1,
                 name: title,
                 description: description,
                 dueDate: { date, time },
                 category: category
-            };
-            return [...prevTasks, newTask];
-        });
+            });
+            await carregarTarefas();
+            setPagina("home");
+        } catch (error) {
+            console.error("Erro ao criar tarefa:", error);
+            alert("Erro ao criar tarefa: " + error.message);
+        }
     }
 
     return (
@@ -50,7 +54,7 @@ export default function AddTask({ setPagina }) {
                 <Input title="Hora" value={time} setValue={setTime} type="time"></Input>
             </div>
             <div className="button-div">
-                <Button onClick={() => { addTask(); setPagina("home") }} label={"Adicionar"}></Button>
+                <Button onClick={addTask} label={"Adicionar"}></Button>
             </div>
         </div>
     )

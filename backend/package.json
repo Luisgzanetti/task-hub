@@ -1,6 +1,13 @@
 {
+  "name": "task-hub-backend",
+  "version": "1.0.0",
+  "type": "module",
   "dependencies": {
-    "express": "^5.2.1"
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^6.0.1"
   },
   "scripts": {
     "dev": "node --watch src/index.js"
