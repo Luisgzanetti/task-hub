@@ -8,6 +8,11 @@ import dbPromise from "../config/db.js";
  */
 export async function criarTarefa({ id_usuario, id_status, titulo, descricao, data_criacao, prazo_final }) {
     const db = await dbPromise
+
+    // Formatar datas para o formato compatível com o MySQL (YYYY-MM-DD HH:mm:ss)
+    const formattedCriacao = data_criacao ? data_criacao.replace('T', ' ').slice(0, 19) : null;
+    const formattedPrazo = prazo_final ? prazo_final.replace('T', ' ').slice(0, 19) : null;
+
     const query = `
         INSERT INTO tarefas (id_usuario, id_status, titulo, descricao, criado_em, prazo_final)
         VALUES (?, ?, ?, ?, ?, ?)
@@ -17,9 +22,9 @@ export async function criarTarefa({ id_usuario, id_status, titulo, descricao, da
         id_status,
         titulo,
         descricao,
-        data_criacao,
-        prazo_final
-    ])
+        formattedCriacao,
+        formattedPrazo
+    ]);
 
     return {
         id_tarefa: result.lastID,
