@@ -17,17 +17,17 @@ export async function criarTarefa({ id_usuario, id_status, titulo, descricao, da
         INSERT INTO tarefas (id_usuario, id_status, titulo, descricao, criado_em, prazo_final)
         VALUES (?, ?, ?, ?, ?, ?)
     `
-    const result = await db.run(query, [
+    const [result] = await db.execute(query, [
         id_usuario,
         id_status,
         titulo,
-        descricao,
+        descricao ?? null,
         formattedCriacao,
         formattedPrazo
     ]);
 
     return {
-        id_tarefa: result.lastID,
+        id_tarefa: result.insertId,
         titulo,
         descricao,
         data_criacao,
@@ -45,6 +45,31 @@ export async function buscarTarefas(id_usuario) {
         LEFT JOIN status s ON t.id_status = s.id_status
         WHERE t.id_usuario = ?
     `
-    const result = await db.all(query, [id_usuario])
-    return result
+    const [rows] = await db.execute(query, [id_usuario])
+    return rows
+}
+
+export async function editarTarefa(id_tarefa, { id_status, titulo, descricao, prazo_final }) {
+    const db = await dbPromise;
+    const query = `
+        UPDATE tarefas
+        SET id_status = ?, titulo = ?, descricao = ?, prazo_final = ?
+        WHERE id_tarefa = ?
+    `
+    const [result] = await db.execute(query, [
+        id_status ?? null,
+        titulo ?? null,
+        descricao ?? null,
+        prazo_final ?? null,
+        id_tarefa
+    ])
+
+    return {
+        result,
+        id_tarefa,
+        id_status,
+        titulo,
+        descricao,
+        prazo_final
+    }
 }

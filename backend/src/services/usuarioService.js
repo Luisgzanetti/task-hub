@@ -7,8 +7,8 @@ import dbPromise from '../config/db.js';
  */
 export async function findByEmail(email) {
     const db = await dbPromise;
-    const row = await db.get('SELECT * FROM usuarios WHERE email = ?', [email]);
-    return row || null;
+    const [rows] = await db.execute('SELECT * FROM usuarios WHERE email = ?', [email]);
+    return rows[0] || null;
 }
 
 /**
@@ -19,8 +19,8 @@ export async function findByEmail(email) {
 export async function findByCpf(cpf) {
     const db = await dbPromise;
     const cleanedCpf = cpf.replace(/\D/g, '');
-    const row = await db.get('SELECT * FROM usuarios WHERE cpf = ?', [cleanedCpf]);
-    return row || null;
+    const [rows] = await db.execute('SELECT * FROM usuarios WHERE cpf = ?', [cleanedCpf]);
+    return rows[0] || null;
 }
 
 /**
@@ -35,10 +35,10 @@ export async function criarUsuario({ nome, email, cpf, data_nascimento, senha, f
         INSERT INTO usuarios (nome, email, cpf, data_nascimento, senha, foto_perfil)
         VALUES (?, ?, ?, ?, ?, ?)
     `;
-    const result = await db.run(query, [nome, email, cleanedCpf, data_nascimento, senha, foto_perfil]);
+    const [result] = await db.execute(query, [nome, email, cleanedCpf, data_nascimento, senha, foto_perfil]);
 
     return {
-        id_usuario: result.lastID,
+        id_usuario: result.insertId,
         nome,
         email,
         cpf: cleanedCpf,

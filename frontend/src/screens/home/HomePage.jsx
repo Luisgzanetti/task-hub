@@ -9,6 +9,7 @@ import FilterCard from '../../components/FilterCard/FilterCard.jsx';
 import Button from '../../components/Button/Button.jsx';
 import { useState } from "react"
 import { useApp } from '../../context/AppContext.jsx';
+import { editarTarefa } from '../../services/api.js';
 
 export default function HomePage({ setPagina, setSelectedTaskId }) {
 
@@ -24,17 +25,23 @@ export default function HomePage({ setPagina, setSelectedTaskId }) {
         setSearch(event.target.value)
     }
 
-    function completeTask(id) {
+    async function completeTask(id) {
+        const originalTask = tasks.find(task => task.id === id);
+        const updatedTask = await editarTarefa({
+            id: id,
+            name: originalTask.name,
+            description: originalTask.description,
+            dueDate: originalTask.dueDate,
+            category: originalTask.category === "Concluída" ? "Em progresso" : "Concluída",
+            createdAt: originalTask.createdAt,
+            deleted: originalTask.deleted
+        })
         setTasks(tasks.map(task => {
-            if (task.id == id) {
-                if (task.category === "Concluída") {
-                    return { ...task, category: "Em progresso" }
-                } else {
-                    return { ...task, category: "Concluída" }
-                }
+            if (task.id === id) {
+                return updatedTask
             }
-            return task;
-        }));
+            return task
+        }))
     }
 
     function deleteTask(id) {

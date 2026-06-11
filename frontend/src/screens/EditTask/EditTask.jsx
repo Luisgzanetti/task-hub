@@ -5,8 +5,8 @@ import TopBar from "../../components/TopBar/TopBar";
 import TaskCardModel from "../../components/TaskCardModel/TaskCardModel";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
-
-export default function EditTask({ setPagina, taskId, setSelectedTaskId }) {
+import { editarTarefa } from "../../services/api";
+export default function EditTask({ setPagina, taskId }) {
 
     const { tasks, setTasks } = useApp();
 
@@ -37,15 +37,19 @@ export default function EditTask({ setPagina, taskId, setSelectedTaskId }) {
         category: category
     };
 
-    function updateTask() {
+    async function updateTask() {
+        const updatedTask = await editarTarefa({
+            id: taskId,
+            name: title,
+            description: description,
+            dueDate: { date, time },
+            category: category,
+            createdAt: task.createdAt,
+            deleted: task.deleted
+        });
         setTasks(prevTasks => prevTasks.map(t => {
             if (t.id === taskId) {
-                return {
-                    ...t,
-                    name: title,
-                    description: description,
-                    dueDate: { date, time }
-                };
+                return updatedTask;
             }
             return t;
         }));

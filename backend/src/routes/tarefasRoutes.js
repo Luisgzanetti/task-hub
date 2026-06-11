@@ -9,4 +9,7 @@ router.get('/', tarefasController.buscarTarefas)
 // Rota para criação de tarefas
 router.post('/', tarefasController.criarTarefa)
 
+// Rota para edição de tarefas
+router.put('/', tarefasController.editarTarefa)
+
 export default router;

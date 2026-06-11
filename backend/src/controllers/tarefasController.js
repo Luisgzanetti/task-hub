@@ -60,3 +60,32 @@ export async function buscarTarefas(req, res) {
         return res.status(500).json({ error: "Erro interno ao buscar tarefas" });
     }
 }
+
+export async function editarTarefa(req, res) {
+    try {
+        const { id_tarefa, id_status, titulo, descricao, prazo_final } = req.body
+
+        if (!id_tarefa) {
+            return res.status(400).json({ erro: "O campo id_tarefa é obrigatório." });
+        }
+
+        if (titulo && titulo.length > 200) {
+            return res.status(400).json({ erro: "O título deve ter no máximo 200 caracteres." });
+        }
+
+        const tarefa = await tarefasService.editarTarefa(id_tarefa, {
+            id_status,
+            titulo,
+            descricao,
+            prazo_final,
+        })
+        return res.status(200).json({
+            mensagem: "Tarefa editada com sucesso!",
+            tarefa
+        })
+
+    } catch (error) {
+        console.error("Erro ao editar tarefa:", error)
+        return res.status(500).json({ erro: "Erro interno ao editar tarefa" });
+    }
+}

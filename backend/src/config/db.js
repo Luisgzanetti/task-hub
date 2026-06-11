@@ -90,28 +90,8 @@ const dbPromise = (async () => {
 
         console.log('Tabelas do banco de dados MySQL inicializadas!');
 
-        // 7. Retornar wrapper compatível com SQLite (get, all, run, exec)
-        return {
-            async get(sql, params = []) {
-                const [rows] = await pool.execute(sql, params);
-                return rows[0] || null;
-            },
-            async all(sql, params = []) {
-                const [rows] = await pool.execute(sql, params);
-                return rows;
-            },
-            async run(sql, params = []) {
-                const [result] = await pool.execute(sql, params);
-                return {
-                    lastID: result.insertId,
-                    changes: result.affectedRows
-                };
-            },
-            async exec(sql) {
-                await pool.query(sql);
-            },
-            pool
-        };
+        // 7. Retornar o pool de conexões do MySQL
+        return pool;
     } catch (err) {
         console.error('Erro ao conectar ou inicializar o MySQL:', err.message);
         throw err;

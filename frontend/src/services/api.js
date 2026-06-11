@@ -78,9 +78,9 @@ export async function buscarTarefas(idUsuario) {
         let date = "";
         let time = "";
         if (t.prazo_final) {
-            const parts = t.prazo_final.split(" ");
+            const parts = t.prazo_final.split(/[ T]/);
             date = parts[0] || "";
-            time = parts[1] || "";
+            time = parts[1] ? parts[1].slice(0, 8) : "";
         }
         return {
             id: t.id_tarefa,
@@ -94,4 +94,48 @@ export async function buscarTarefas(idUsuario) {
     });
 
     return mappedTasks;
+}
+
+export async function editarTarefa(tarefaData) {
+    const backendData = {
+        id_tarefa: tarefaData.id,
+        id_status: STATUS_MAP[tarefaData.category] || 1,
+        titulo: tarefaData.name,
+        descricao: tarefaData.description || null,
+        prazo_final: `${tarefaData.dueDate?.date || ''} ${tarefaData.dueDate?.time || '23:59:59'}`
+    };
+
+    const response = await fetch(`${API_BASE_URL}/tarefas`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(backendData)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.erro || "Erro ao editar tarefa");
+    }
+
+    const newCategory = STATUS_REV_MAP[data.tarefa.id_status] || "Em progresso";
+
+    let date = "";
+    let time = "";
+    if (data.tarefa.prazo_final) {
+        const parts = data.tarefa.prazo_final.split(/[ T]/);
+        date = parts[0] || "";
+        time = parts[1] ? parts[1].slice(0, 8) : "";
+    }
+
+    return {
+        id: data.tarefa.id_tarefa,
+        name: data.tarefa.titulo,
+        description: data.tarefa.descricao,
+        category: newCategory,
+        createdAt: data.tarefa.criado_em || tarefaData.createdAt,
+        dueDate: { date, time },
+        deleted: data.tarefa.deletado === 1 || tarefaData.deleted
+    };
 }
