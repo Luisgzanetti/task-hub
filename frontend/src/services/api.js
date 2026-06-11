@@ -157,3 +157,21 @@ export async function fazerLogin(identificador, senha) {
 
     return data;
 }
+
+export async function atualizarUsuario(userData) {
+    const response = await fetch(`${API_BASE_URL}/usuarios`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData)
+    })
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.erro || "Erro ao atualizar usuário");
+    }
+
+    return data;
+}

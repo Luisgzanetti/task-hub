@@ -46,3 +46,42 @@ export async function criarUsuario({ nome, email, cpf, data_nascimento, senha, f
         foto_perfil
     };
 }
+
+export async function atualizarUsuario({ id_usuario, nome, email, cpf, data_nascimento, senha }) {
+    const db = await dbPromise;
+
+    // Buscar dados atuais para evitar sobrescrever com undefined/null
+    const [rows] = await db.execute('SELECT * FROM usuarios WHERE id_usuario = ?', [id_usuario]);
+    const usuarioAtual = rows[0];
+    if (!usuarioAtual) {
+        throw new Error('Usuário não encontrado');
+    }
+
+    const finalNome = nome !== undefined ? nome : usuarioAtual.nome;
+    const finalEmail = email !== undefined ? email : usuarioAtual.email;
+    const finalCpf = cpf !== undefined ? cpf.replace(/\D/g, '') : usuarioAtual.cpf;
+    const finalData = data_nascimento !== undefined ? data_nascimento : usuarioAtual.data_nascimento;
+    const finalSenha = senha !== undefined ? senha : usuarioAtual.senha;
+
+    const query = `
+        UPDATE usuarios
+        SET nome = ?, email = ?, cpf = ?, data_nascimento = ?, senha = ?
+        WHERE id_usuario = ?
+    `;
+    await db.execute(query, [
+        finalNome,
+        finalEmail,
+        finalCpf,
+        finalData,
+        finalSenha,
+        id_usuario
+    ]);
+
+    return {
+        id_usuario,
+        nome: finalNome,
+        email: finalEmail,
+        cpf: finalCpf,
+        data_nascimento: finalData
+    };
+}

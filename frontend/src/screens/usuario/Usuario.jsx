@@ -1,6 +1,8 @@
 import "./Usuario.css"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useApp } from "../../context/AppContext"
+import { atualizarUsuario } from "../../services/api"
 
 import TopBar from "../../components/TopBar/TopBar"
 import SideBar from "../../components/SideBar/SideBar"
@@ -10,13 +12,14 @@ import { BiArrowBack } from "react-icons/bi"
 import { BiShow } from "react-icons/bi"
 
 export default function Usuario({ setPagina }) {
+    const { usuario, loginUser, logout } = useApp();
 
     const [tela, setTela] = useState("menu")
 
-    const [nome, setNome] = useState("Nome de Usuário")
-    const [email, setEmail] = useState("e-mail")
-    const [cpf, setCpf] = useState("CPF")
-    const [data, setData] = useState("Data de Nascimento")
+    const [nome, setNome] = useState("")
+    const [email, setEmail] = useState("")
+    const [cpf, setCpf] = useState("")
+    const [data, setData] = useState("")
 
     const [senhaAtual, setSenhaAtual] = useState("")
     const [novaSenha, setNovaSenha] = useState("")
@@ -24,37 +27,78 @@ export default function Usuario({ setPagina }) {
 
     const [mostrarModal, setMostrarModal] = useState(false)
 
-    function atualizarPerfil() {
+    useEffect(() => {
+        if (usuario) {
+            setNome(usuario.nome || "");
+            setEmail(usuario.email || "");
+            setCpf(usuario.cpf || "");
+            if (usuario.data_nascimento) {
+                setData(usuario.data_nascimento.split("T")[0]);
+            }
+        }
+    }, [usuario]);
 
-        setMostrarModal(true)
+    async function atualizarPerfil() {
+        if (!nome || !email || !cpf || !data) {
+            alert("Preencha todos os campos.");
+            return;
+        }
+        try {
+            const res = await atualizarUsuario({
+                id_usuario: usuario.id_usuario,
+                nome,
+                email,
+                cpf,
+                data_nascimento: data
+            });
+            loginUser(res.usuario);
+            setMostrarModal(true)
 
-        setTimeout(() => {
-            setMostrarModal(false)
-            setTela("menu")
-        }, 2000)
-
+            setTimeout(() => {
+                setMostrarModal(false)
+                setTela("menu")
+            }, 2000)
+        } catch (error) {
+            console.error("Erro ao atualizar perfil:", error);
+            alert("Erro ao atualizar perfil: " + error.message);
+        }
     }
 
     function excluirPerfil() {
-
         setMostrarModal(true)
-
         setTimeout(() => {
             setMostrarModal(false)
             setPagina("inicio")
         }, 2000)
-
     }
 
-    function alterarSenha() {
+    async function alterarSenha() {
+        if (!senhaAtual || !novaSenha || !confirmarSenha) {
+            alert("Preencha todos os campos de senha.");
+            return;
+        }
+        if (novaSenha !== confirmarSenha) {
+            alert("As senhas novas não coincidem.");
+            return;
+        }
+        try {
+            await atualizarUsuario({
+                id_usuario: usuario.id_usuario,
+                senha: novaSenha
+            });
+            setMostrarModal(true)
+            setSenhaAtual("");
+            setNovaSenha("");
+            setConfirmarSenha("");
 
-        setMostrarModal(true)
-
-        setTimeout(() => {
-            setMostrarModal(false)
-            setTela("menu")
-        }, 2000)
-
+            setTimeout(() => {
+                setMostrarModal(false)
+                setTela("menu")
+            }, 2000)
+        } catch (error) {
+            console.error("Erro ao alterar senha:", error);
+            alert("Erro ao alterar senha: " + error.message);
+        }
     }
 
     if (tela === "editar") {
@@ -118,6 +162,7 @@ export default function Usuario({ setPagina }) {
                             <label>Data de Nascimento</label>
 
                             <input
+                                type="date"
                                 value={data}
                                 onChange={(e) => setData(e.target.value)}
                             />
@@ -399,7 +444,7 @@ export default function Usuario({ setPagina }) {
 
                             <div className="logout-buttons">
 
-                                <button onClick={() => setPagina("inicio")}>
+                                <button onClick={() => { logout(); setPagina("inicio"); }}>
                                     SIM
                                 </button>
 

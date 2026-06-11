@@ -9,4 +9,7 @@ router.post('/login', usuarioController.login);
 // Rota para cadastro de usuário
 router.post('/', usuarioController.cadastrar);
 
+// Rota para atualizar dados do usuário
+router.put('/', usuarioController.atualizarUsuario);
+
 export default router;

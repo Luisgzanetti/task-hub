@@ -32,7 +32,8 @@ export async function login(req, res) {
                 id_usuario: usuario.id_usuario,
                 nome: usuario.nome,
                 email: usuario.email,
-                cpf: usuario.cpf
+                cpf: usuario.cpf,
+                data_nascimento: usuario.data_nascimento
             }
         });
     } catch (error) {
@@ -94,4 +95,35 @@ export async function cadastrar(req, res) {
         console.error('Erro no cadastro do usuário:', error);
         return res.status(500).json({ erro: 'Erro interno ao processar o cadastro.' });
     }
+}
+
+export async function atualizarUsuario(req, res) {
+    try {
+        const { id_usuario, nome, email, cpf, data_nascimento, senha } = req.body
+
+        const usuarioEditado = await usuarioService.atualizarUsuario({
+            id_usuario: id_usuario,
+            nome: nome,
+            email: email,
+            cpf: cpf,
+            data_nascimento: data_nascimento,
+            senha: senha
+        })
+
+        return res.status(200).json({
+            mensagem: 'Usuário atualizado com sucesso!',
+            usuario: {
+                id_usuario: usuarioEditado.id_usuario,
+                nome: usuarioEditado.nome,
+                email: usuarioEditado.email,
+                cpf: usuarioEditado.cpf,
+                data_nascimento: usuarioEditado.data_nascimento,
+                senha: usuarioEditado.senha
+            }
+        })
+    } catch (error) {
+        console.error('Erro ao editar usuário:', error);
+        return res.status(500).json({ erro: 'Erro interno ao editar usuário.' })
+    }
+
 }
