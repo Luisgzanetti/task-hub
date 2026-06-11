@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { AppProvider } from "./context/AppContext";
+import { useState, useEffect } from "react"
+import { AppProvider, useApp } from "./context/AppContext";
 import LoginPage from "./screens/login/LoginPage"
 import HomePage from "./screens/home/HomePage"
 import Lixo from "./screens/lixo/lixo";
@@ -12,8 +12,20 @@ import EditTask from "./screens/EditTask/EditTask";
 import AddTask from "./screens/AddTask/AddTask";
 
 function AppContent() {
-    const [pagina, setPagina] = useState("inicio")
+    const { usuario } = useApp();
+    const [pagina, setPagina] = useState(() => {
+        const cached = localStorage.getItem("usuario");
+        return cached ? "home" : "inicio";
+    });
     const [selectedTaskId, setSelectedTaskId] = useState(null) // Essa variável só serve para a página de editar
+
+    useEffect(() => {
+        if (!usuario) {
+            setPagina("inicio");
+        } else if (pagina === "inicio" || pagina === "login" || pagina === "cadastro") {
+            setPagina("home");
+        }
+    }, [usuario]);
 
     if (pagina === "inicio") {
         return <Inicio setPagina={setPagina} />

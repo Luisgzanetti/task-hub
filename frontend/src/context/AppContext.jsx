@@ -7,13 +7,18 @@ export function AppProvider({ children }) {
     const [tasks, setTasks] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const idUsuario = 1;
+    const [usuario, setUsuario] = useState(() => {
+        const cached = localStorage.getItem("usuario");
+        return cached ? JSON.parse(cached) : null;
+    });
 
-    const carregarTarefas = async () => {
+    const carregarTarefas = async (userId) => {
+        const idToFetch = userId || usuario?.id_usuario;
+        if (!idToFetch) return;
         setIsLoading(true);
         setError(null);
         try {
-            const data = await buscarTarefas(idUsuario);
+            const data = await buscarTarefas(idToFetch);
             setTasks(data);
         } catch (err) {
             console.error("Erro ao buscar tarefas do backend:", err);
@@ -23,12 +28,27 @@ export function AppProvider({ children }) {
         }
     };
 
+    const logout = () => {
+        localStorage.removeItem("usuario");
+        setUsuario(null);
+        setTasks([]);
+    };
+
+    const loginUser = (userData) => {
+        localStorage.setItem("usuario", JSON.stringify(userData));
+        setUsuario(userData);
+    };
+
     useEffect(() => {
-        carregarTarefas();
-    }, []);
+        if (usuario) {
+            carregarTarefas();
+        } else {
+            setTasks([]);
+        }
+    }, [usuario]);
 
     return (
-        <AppContext.Provider value={{ tasks, setTasks, carregarTarefas, isLoading, error }}>
+        <AppContext.Provider value={{ tasks, setTasks, carregarTarefas, isLoading, error, usuario, loginUser, logout }}>
             {children}
         </AppContext.Provider>
     );

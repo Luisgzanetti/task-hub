@@ -9,7 +9,7 @@ import { criarTarefa } from "../../services/api";
 
 export default function AddTask({ setPagina }) {
 
-    const { carregarTarefas } = useApp();
+    const { carregarTarefas, usuario } = useApp();
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -27,7 +27,7 @@ export default function AddTask({ setPagina }) {
     async function addTask() {
         try {
             await criarTarefa({
-                id_usuario: 1,
+                id_usuario: usuario?.id_usuario || 1,
                 name: title,
                 description: description,
                 dueDate: { date, time },

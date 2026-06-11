@@ -139,3 +139,21 @@ export async function editarTarefa(tarefaData) {
         deleted: data.tarefa.deletado === 1 || tarefaData.deleted
     };
 }
+
+export async function fazerLogin(identificador, senha) {
+    const response = await fetch(`${API_BASE_URL}/usuarios/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ identificador, senha })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.erro || 'Erro ao realizar login.');
+    }
+
+    return data;
+}

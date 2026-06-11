@@ -3,6 +3,44 @@ import * as usuarioService from '../services/usuarioService.js';
 /**
  * Controller responsável pelas funções relacionadas ao usuário.
  */
+export async function login(req, res) {
+    try {
+        const { identificador, senha } = req.body;
+
+        if (!identificador || !senha) {
+            return res.status(400).json({ erro: 'Identificador (e-mail ou CPF) e senha são obrigatórios.' });
+        }
+
+        let usuario = null;
+        if (identificador.includes('@')) {
+            usuario = await usuarioService.findByEmail(identificador);
+        } else {
+            usuario = await usuarioService.findByCpf(identificador);
+        }
+
+        if (!usuario) {
+            return res.status(404).json({ erro: 'Usuário não encontrado.' });
+        }
+
+        if (senha !== usuario.senha) {
+            return res.status(401).json({ erro: 'Senha incorreta.' });
+        }
+
+        return res.status(200).json({
+            mensagem: "Logado com sucesso!",
+            usuario: {
+                id_usuario: usuario.id_usuario,
+                nome: usuario.nome,
+                email: usuario.email,
+                cpf: usuario.cpf
+            }
+        });
+    } catch (error) {
+        console.error('Erro ao realizar login:', error);
+        return res.status(500).json({ erro: 'Erro interno ao realizar login.' });
+    }
+}
+
 export async function cadastrar(req, res) {
     try {
         const { nome, email, cpf, data_nascimento, senha, confirmar_senha } = req.body;
