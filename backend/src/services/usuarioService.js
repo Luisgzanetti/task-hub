@@ -61,7 +61,7 @@ export async function atualizarUsuario({ id_usuario, nome, email, cpf, data_nasc
  * @param {number|string} idUsuario
  * @returns {Promise<boolean>} Retorna true se deletou, ou false se o usuário não existia.
  */
-export async function deletarUsuario({id_usuario}){
+export async function deletarUsuario(id_usuario){
     const db = await dbPromise; // node trava a execucao dessa funcao enquanto a conexao com o MySQL n esteja completa
     const query = 'DELETE FROM usuarios WHERE id_usuario = ?';
     const [result] = await db.execute(query, [idUsuario]);
