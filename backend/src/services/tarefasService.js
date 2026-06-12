@@ -73,3 +73,19 @@ export async function editarTarefa(id_tarefa, { id_status, titulo, descricao, pr
         prazo_final
     }
 }
+
+export async function deletarTarefa(id_tarefa) {
+    const db = await dbPromise;
+
+    const query = `
+        DELETE FROM tarefas
+        WHERE id_tarefa = ?
+    `;
+
+    const [result] = await db.execute(query, [id_tarefa]);
+
+    return {
+        result,
+        id_tarefa_deletada: id_tarefa
+    };
+}
