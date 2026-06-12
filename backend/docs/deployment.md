@@ -25,8 +25,6 @@ Antes de iniciar o backend, é necessário criar a estrutura do banco de dados M
 
 ## ⚙️ 2. Configuração das Variáveis de Ambiente (`.env`)
 
-As variáveis de ambiente devem ser configuradas nas pastas do backend e do frontend.
-
 ### Backend (`backend/.env`)
 1. Acesse o diretório `backend/` do projeto.
 2. Copie o arquivo `.env.example` e renomeie-o para `.env`.
@@ -39,16 +37,6 @@ As variáveis de ambiente devem ser configuradas nas pastas do backend e do fron
    DB_NAME=bancotaskhub
    DB_PORT=3306
    ```
-
-### Frontend (`frontend/.env`)
-1. Acesse o diretório `frontend/` do projeto.
-2. Copie o arquivo `.env.example` e renomeie-o para `.env`.
-3. Verifique se o arquivo possui a seguinte variável apontando para o endereço de desenvolvimento do backend:
-   ```env
-   VITE_API_URL=http://localhost:3000
-   ```
-
----
 
 ## 🚀 3. Como Executar o Projeto
 
