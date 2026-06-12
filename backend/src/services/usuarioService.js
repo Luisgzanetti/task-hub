@@ -64,7 +64,7 @@ export async function atualizarUsuario({ id_usuario, nome, email, cpf, data_nasc
 export async function deletarUsuario(id_usuario){
     const db = await dbPromise; // node trava a execucao dessa funcao enquanto a conexao com o MySQL n esteja completa
     const query = 'DELETE FROM usuarios WHERE id_usuario = ?';
-    const [result] = await db.execute(query, [idUsuario]);
+    const [result] = await db.execute(query, [id_usuario]);
     return result.affectedRows > 0; //se alguma linha for modificada no banco significa que o usuario foi deletado
     }
 
