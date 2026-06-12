@@ -89,3 +89,25 @@ export async function editarTarefa(req, res) {
         return res.status(500).json({ erro: "Erro interno ao editar tarefa" });
     }
 }
+
+export async function deletarTarefa(req, res) {
+    try {
+        
+        const { id_tarefa } = req.params;
+        
+        if (!id_tarefa) {
+            return res.status(400).json({ erro: "O parâmetro id_tarefa na URL é obrigatório." });
+        }
+
+        await tarefasService.deletarTarefa(id_tarefa);
+
+        return res.status(200).json({
+            mensagem: "Tarefa deletada com sucesso!",
+            id_tarefa_deletada: id_tarefa
+        });
+
+    } catch (error) {
+        console.error("Erro ao deletar tarefa:", error);
+        return res.status(500).json({ erro: "Erro interno ao deletar tarefa" });
+    }
+}
