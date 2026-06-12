@@ -126,4 +126,21 @@ export async function atualizarUsuario(req, res) {
         return res.status(500).json({ erro: 'Erro interno ao editar usuário.' })
     }
 
+    export async function deletarUsuario(req, res) {
+        try{
+            const { id_usuario } = req.params;//requisicoes do tipo delete por padrao nao devem enviar um body com dados
+            await usuarioService.deletarUsuario(id_usuario);
+            
+            return res.status(200).json({
+                mensagem: 'Usuário deletado com sucesso!',
+                id_deletado: id_usuario
+        });
+
+    } catch (error) {
+        console.error('Erro ao deletar usuário:', error);
+        return res.status(500).json({ erro: 'Erro interno ao deletar usuário.' });
+    }
+}
+            
+
 }
