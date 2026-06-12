@@ -12,4 +12,6 @@ router.post('/', usuarioController.cadastrar);
 // Rota para atualizar dados do usuário
 router.put('/', usuarioController.atualizarUsuario);
 
+router.delete('/usuarios/:id_usuario', usuarioController.deletarUsuario);
+
 export default router;
