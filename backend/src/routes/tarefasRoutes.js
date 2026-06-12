@@ -12,4 +12,6 @@ router.post('/', tarefasController.criarTarefa)
 // Rota para edição de tarefas
 router.put('/', tarefasController.editarTarefa)
 
+router.delete('/:id_tarefa', tarefasController.deletarTarefa);
+
 export default router;
