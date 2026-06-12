@@ -56,6 +56,17 @@ export async function atualizarUsuario({ id_usuario, nome, email, cpf, data_nasc
     if (!usuarioAtual) {
         throw new Error('Usuário não encontrado');
     }
+/**
+ * Deleta um usuário do banco de dados.
+ * @param {number|string} idUsuario
+ * @returns {Promise<boolean>} Retorna true se deletou, ou false se o usuário não existia.
+ */
+export async function deletarUsuario({id_usuario}){
+    const db = await dbPromise; // node trava a execucao dessa funcao enquanto a conexao com o MySQL n esteja completa
+    const query = 'DELETE FROM usuarios WHERE id_usuario = ?';
+    const [result] = await db.execute(query, [idUsuario]);
+    return result.affectedRows > 0; //se alguma linha for modificada no banco significa que o usuario foi deletado
+    }
 
     const finalNome = nome !== undefined ? nome : usuarioAtual.nome;
     const finalEmail = email !== undefined ? email : usuarioAtual.email;
