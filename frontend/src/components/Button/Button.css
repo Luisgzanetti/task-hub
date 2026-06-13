@@ -10,7 +10,8 @@
 
     border-radius: 20px;
 
-    width: 125px;
+    width: 100%;
+    max-width: 300px;
 
     background-color: var(--dark-purple);
     color: var(--pure-white);

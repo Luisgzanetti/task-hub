@@ -1,11 +1,10 @@
 import './lixo.css'
-
 import { useState } from "react"
-
 import TopBar from '../../components/TopBar/TopBar'
+import { useApp } from '../../context/AppContext'
 import SideBar from '../../components/SideBar/SideBar'
-
 import { BiTime } from "react-icons/bi";
+import { restaurarTarefa as apiRestaurarTarefa } from '../../services/api';
 
 export default function Lixo({ setPagina }) {
 
@@ -13,50 +12,23 @@ export default function Lixo({ setPagina }) {
 
     const [tarefaSelecionada, setTarefaSelecionada] = useState(null)
 
-    const [tarefas, setTarefas] = useState([
-        {
-            id: 1,
-            nome: "Nome",
-            prazo: "XX:XX",
-            categoria: "Em progresso"
-        },
-        {
-            id: 2,
-            nome: "Nome",
-            prazo: "XX:XX",
-            categoria: "Em progresso"
-        },
-        {
-            id: 3,
-            nome: "Nome",
-            prazo: "XX:XX",
-            categoria: "Atrasada"
-        },
-        {
-            id: 4,
-            nome: "Nome",
-            prazo: "XX:XX",
-            categoria: "Concluída"
+    const { tasks, setTasks } = useApp()
+
+    async function restaurarTarefa() {
+        try {
+            await apiRestaurarTarefa(tarefaSelecionada);
+            setTasks(tasks.map(task => {
+                if (task.id === tarefaSelecionada) {
+                    return { ...task, deleted: false }
+                }
+                return task
+            }));
+        } catch (error) {
+            console.error("Erro ao restaurar tarefa:", error);
+            alert("Erro ao restaurar tarefa no servidor: " + error.message);
+        } finally {
+            setMostrarModal(false);
         }
-    ])
-
-    function restaurarTarefa() {
-
-        let novasTarefas = []
-
-        for (let i = 0; i < tarefas.length; i++) {
-
-            if (tarefas[i].id !== tarefaSelecionada) {
-
-                novasTarefas.push(tarefas[i])
-
-            }
-
-        }
-
-        setTarefas(novasTarefas)
-
-        setMostrarModal(false)
     }
 
     return (
@@ -67,7 +39,7 @@ export default function Lixo({ setPagina }) {
             <div className="lixo-content">
 
                 <h1 className="lixo-title">
-                    Tarefas excluídas ({tarefas.length})
+                    Tarefas excluídas ({tasks.filter(task => task.deleted).length})
                 </h1>
 
                 {/* EM ANDAMENTO */}
@@ -77,17 +49,17 @@ export default function Lixo({ setPagina }) {
                     <h2 className="lixo-subtitle">
                         Em andamento (
                         {
-                            tarefas.filter(
-                                task => task.categoria === "Em progresso"
+                            tasks.filter(
+                                task => task.category === "Em progresso" && task.deleted
                             ).length
                         }
                         )
                     </h2>
 
                     {
-                        tarefas.map(task => (
+                        tasks.map(task => (
 
-                            task.categoria === "Em progresso" && (
+                            task.category === "Em progresso" && task.deleted && (
 
                                 <div
                                     className="lixo-card"
@@ -96,7 +68,7 @@ export default function Lixo({ setPagina }) {
 
                                     <div className="lixo-card-top">
 
-                                        <h3>{task.nome}</h3>
+                                        <h3>{task.name}</h3>
 
                                         <span className="status andamento">
                                             Em progresso
@@ -110,7 +82,7 @@ export default function Lixo({ setPagina }) {
 
                                             <BiTime size={18} />
 
-                                            <p>Prazo, {task.prazo}</p>
+                                            <p>Prazo, {task.dueDate?.time}</p>
 
                                         </div>
 
@@ -142,17 +114,17 @@ export default function Lixo({ setPagina }) {
                     <h2 className="lixo-subtitle">
                         Atrasadas (
                         {
-                            tarefas.filter(
-                                task => task.categoria === "Atrasada"
+                            tasks.filter(
+                                task => task.category === "Atrasada" && task.deleted
                             ).length
                         }
                         )
                     </h2>
 
                     {
-                        tarefas.map(task => (
+                        tasks.map(task => (
 
-                            task.categoria === "Atrasada" && (
+                            task.category === "Atrasada" && task.deleted && (
 
                                 <div
                                     className="lixo-card"
@@ -161,7 +133,7 @@ export default function Lixo({ setPagina }) {
 
                                     <div className="lixo-card-top">
 
-                                        <h3>{task.nome}</h3>
+                                        <h3>{task.name}</h3>
 
                                         <span className="status atrasada">
                                             Atrasada
@@ -175,7 +147,7 @@ export default function Lixo({ setPagina }) {
 
                                             <BiTime size={18} />
 
-                                            <p>Prazo, {task.prazo}</p>
+                                            <p>Prazo, {task.dueDate?.time}</p>
 
                                         </div>
 
@@ -207,17 +179,17 @@ export default function Lixo({ setPagina }) {
                     <h2 className="lixo-subtitle">
                         Concluídas (
                         {
-                            tarefas.filter(
-                                task => task.categoria === "Concluída"
+                            tasks.filter(
+                                task => task.category === "Concluída" && task.deleted
                             ).length
                         }
                         )
                     </h2>
 
                     {
-                        tarefas.map(task => (
+                        tasks.map(task => (
 
-                            task.categoria === "Concluída" && (
+                            task.category === "Concluída" && task.deleted && (
 
                                 <div
                                     className="lixo-card"
@@ -226,7 +198,7 @@ export default function Lixo({ setPagina }) {
 
                                     <div className="lixo-card-top">
 
-                                        <h3>{task.nome}</h3>
+                                        <h3>{task.name}</h3>
 
                                         <span className="status concluida">
                                             Concluída
@@ -240,7 +212,7 @@ export default function Lixo({ setPagina }) {
 
                                             <BiTime size={18} />
 
-                                            <p>Prazo, {task.prazo}</p>
+                                            <p>Prazo, {task.dueDate?.time}</p>
 
                                         </div>
 

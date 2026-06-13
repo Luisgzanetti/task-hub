@@ -7,7 +7,7 @@ import { BiSolidTrashAlt } from "react-icons/bi";
 import { BiCheck } from "react-icons/bi";
 
 
-export default function TaskCard({ task, completeTask, deleteTask }) {
+export default function TaskCard({ task, completeTask, deleteTask, setPagina, setSelectedTaskId }) {
 
     const [details, setDetails] = useState(false)
     const handleDropdownClick = () => {
@@ -17,8 +17,8 @@ export default function TaskCard({ task, completeTask, deleteTask }) {
     return (
         <div className="task-card">
             <div className='task-top-content'>
-                <button className={`complete-btn ${task.category === 'completed' ? 'complete-btn-active' : ''}`} onClick={() => completeTask(task.id)}>
-                    {task.category === "completed" && <BiCheck size={24} color='white' />}
+                <button className={`complete-btn ${task.category === 'Concluída' ? 'complete-btn-active' : ''}`} onClick={() => completeTask(task.id)}>
+                    {task.category === "Concluída" && <BiCheck size={24} color='white' />}
                 </button>
                 <div className='task-content'>
                     <div className='task-title-display'>
@@ -27,18 +27,18 @@ export default function TaskCard({ task, completeTask, deleteTask }) {
                     </div>
                     <div className='due-date-container'>
                         <BiSolidTime size={24} />
-                        <p className='due-date-text'>Prazo: {task.dueDate.time}</p>
+                        <p className='due-date-text'>Prazo: {task.dueDate.date} / {task.dueDate.time}</p>
                     </div>
                 </div>
-                <div className={`task-category-card ${task.category === 'overdue' ? 'overdue-category' : task.category === 'in_progress' ? 'in_progress-category' : 'completed-category'}`}>
+                <div className={`task-category-card ${task.category === 'Atrasada' ? 'overdue-category' : task.category === 'Em progresso' ? 'in_progress-category' : 'completed-category'}`}>
                     <p className='task-category-text'>{task.category}</p>
                 </div>
             </div>
             {details && (
                 <div className='task-details'>
-                    <p className='task-description'>Descrição: {task.description}</p>
+                    <p className='task-description'>{task.description}</p>
                     <div className='details-buttons'>
-                        <BiPencil size={32} className='edit-btn' />
+                        <BiPencil size={32} className='edit-btn' onClick={() => { setSelectedTaskId(task.id); setPagina("edit") }} />
                         <BiSolidTrashAlt size={32} className='delete-btn' onClick={() => deleteTask(task.id)} />
                     </div>
                 </div>

@@ -10,7 +10,7 @@ export default function Notification({ setPagina }) {
     return (
         <div className="notification-bg">
 
-            <TopBar setPagina={setPagina} />
+            <TopBar setPagina={setPagina} isNotification={true} />
 
             <div className='notification-search-container'>
 
@@ -89,9 +89,9 @@ export default function Notification({ setPagina }) {
 
                 </div>
 
-            </div>   
+            </div>
             <SideBar
-                paginaAtual="home"
+                paginaAtual="notification"
                 setPagina={setPagina}
             />
         </div>

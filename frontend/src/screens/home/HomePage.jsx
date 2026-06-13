@@ -5,153 +5,64 @@ import SideBar from "../../components/SideBar/SideBar.jsx";
 import SearchBar from "../../components/SearchBar/SearchBar.jsx";
 import TaskCard from '../../components/TaskCard/TaskCard.jsx';
 import DeleteConfirmCard from '../../components/DeleteConfirmCard/DeleteConfirmCard.jsx';
-import Notification from "../notifications/noti.jsx"
-import lixo from "../lixo/lixo.jsx"
+import FilterCard from '../../components/FilterCard/FilterCard.jsx';
+import Button from '../../components/Button/Button.jsx';
 import { useState } from "react"
+import { useApp } from '../../context/AppContext.jsx';
+import { editarTarefa, deletarTarefa } from '../../services/api.js';
 
-export default function HomePage({ setPagina }) {
+export default function HomePage({ setPagina, setSelectedTaskId }) {
 
+    const { tasks, setTasks } = useApp()
     const [search, setSearch] = useState("")
     const [deleteTaskId, setDeleteTaskId] = useState(null)
+    const [showFilterOverlay, setShowFilterOverlay] = useState(false)
+    const [showOverdue, setShowOverdue] = useState(true)
+    const [showOngoing, setShowOngoing] = useState(true)
+    const [showCompleted, setShowCompleted] = useState(true)
 
     function handleChangeSearch(event) {
         setSearch(event.target.value)
     }
 
-    const [tasks, setTasks] = useState([
-        {
-            id: 1,
-            name: "Estudar Cálculo",
-            description: ".....................................................................................",
-            category: "in_progress",
-            createdAt: "2025-05-23T00:00:00",
-            dueDate: {
-                date: "2025-06-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 2,
-            name: "Lavar louça",
-            category: "completed",
-            createdAt: "2025-05-20T00:00:00",
-            dueDate: {
-                date: "2025-05-25",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 3,
-            name: "Pagar contas",
-            category: "overdue",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 4,
-            name: "Pagar contas",
-            category: "in_progress",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 5,
-            name: "Pagar contas",
-            category: "completed",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 6,
-            name: "Pagar contas",
-            category: "overdue",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 7,
-            name: "Pagar contas",
-            category: "in_progress",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 8,
-            name: "Pagar contas",
-            category: "completed",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 9,
-            name: "Pagar contas",
-            category: "overdue",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 10,
-            name: "Pagar contas",
-            category: "completed",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        },
-        {
-            id: 11,
-            name: "Pagar contas",
-            category: "in_progress",
-            createdAt: "2025-04-01T00:00:00",
-            dueDate: {
-                date: "2025-04-05",
-                time: "23:59:59"
-            }
-        }
-    ])
-
-    function completeTask(id) {
+    async function completeTask(id) {
+        const originalTask = tasks.find(task => task.id === id);
+        const updatedTask = await editarTarefa({
+            id: id,
+            name: originalTask.name,
+            description: originalTask.description,
+            dueDate: originalTask.dueDate,
+            category: originalTask.category === "Concluída" ? "Em progresso" : "Concluída",
+            createdAt: originalTask.createdAt,
+            deleted: originalTask.deleted
+        })
         setTasks(tasks.map(task => {
-            if (task.id == id) {
-                if (task.category === "completed") {
-                    return { ...task, category: "in_progress" }
-                } else {
-                    return { ...task, category: "completed" }
-                }
+            if (task.id === id) {
+                return updatedTask
             }
-            return task;
-        }));
+            return task
+        }))
     }
 
-    function deleteTask(id) {
-        setTasks(tasks.filter(task => task.id !== id));
-        setDeleteTaskId(null);
+    async function deleteTask(id) {
+        try {
+            await deletarTarefa(id);
+            setTasks(tasks.map(task => {
+                if (task.id === id) {
+                    return { ...task, deleted: true }
+                }
+                return task
+            }));
+        } catch (error) {
+            console.error("Erro ao deletar tarefa:", error);
+            alert("Erro ao deletar tarefa no servidor: " + error.message);
+        } finally {
+            setDeleteTaskId(null);
+        }
     }
 
     const filteredTasks = tasks.filter(task =>
-        task.name.toLowerCase().includes(search.toLowerCase())
+        !task.deleted && task.name.toLowerCase().includes(search.toLowerCase())
     )
 
     return (
@@ -164,40 +75,51 @@ export default function HomePage({ setPagina }) {
                 />
             </div>
             <div className='total-tasks-display'>
-                <p className='total-tasks-text'>Minhas Tarefas ({tasks.length})</p>
-                <BiSortAlt2 size={34} />
+                <p className='total-tasks-text'>Minhas Tarefas ({tasks.filter(task => !task.deleted).length})</p>
+                <BiSortAlt2 size={34} onClick={() => setShowFilterOverlay(true)} />
             </div>
             <div className='tasks-display'>
-                <div className='category-tasks'>
-                    <p className='category-title'>Em Andamento ({tasks.filter(task => task.category === 'in_progress').length})</p>
-                    {filteredTasks.map(task => (
-                        task.category === 'in_progress' && (
-                            <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} />
-                        )
-                    ))}
-                </div>
-                <div className='category-tasks'>
-                    <p className='category-title'>Concluídas ({tasks.filter(task => task.category === 'completed').length})</p>
-                    {filteredTasks.map(task => (
-                        task.category === 'completed' && (
-                            <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} />
-                        )
-                    ))}
-                </div>
-                <div className='category-tasks'>
-                    <p className='category-title'>Atrasadas ({tasks.filter(task => task.category === 'overdue').length})</p>
-                    {filteredTasks.map(task => (
-                        task.category === 'overdue' && (
-                            <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} />
-                        )
-                    ))}
-                </div>
+                {tasks.filter(task => !task.deleted).length === 0 && <p className='no-tasks-text'>Você não possui nenhuma tarefa ainda. Adicione uma para começar!</p>}
+                {showOverdue && (
+                    <div className='category-tasks'>
+                        {tasks.filter(task => task.category === 'Atrasada' && !task.deleted).length > 0 && <p className='category-title'>Atrasadas ({tasks.filter(task => task.category === 'Atrasada' && !task.deleted).length})</p>}
+                        {filteredTasks.map(task => (
+                            task.category === 'Atrasada' && (
+                                <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} setPagina={setPagina} setSelectedTaskId={setSelectedTaskId} />
+                            )
+                        ))}
+                    </div>
+                )}
+                {showOngoing && (
+                    <div className='category-tasks'>
+                        {tasks.filter(task => task.category === 'Em progresso' && !task.deleted).length > 0 && <p className='category-title'>Em Andamento ({tasks.filter(task => task.category === 'Em progresso' && !task.deleted).length})</p>}
+                        {filteredTasks.map(task => (
+                            task.category === 'Em progresso' && (
+                                <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} setPagina={setPagina} setSelectedTaskId={setSelectedTaskId} />
+                            )
+                        ))}
+                    </div>
+                )}
+                {showCompleted && (
+                    <div className='category-tasks'>
+                        {tasks.filter(task => task.category === 'Concluída' && !task.deleted).length > 0 && <p className='category-title'>Concluídas ({tasks.filter(task => task.category === 'Concluída' && !task.deleted).length})</p>}
+                        {filteredTasks.map(task => (
+                            task.category === 'Concluída' && (
+                                <TaskCard task={task} key={task.id} completeTask={completeTask} deleteTask={setDeleteTaskId} setPagina={setPagina} setSelectedTaskId={setSelectedTaskId} />
+                            )
+                        ))}
+                    </div>
+                )}
+            </div>
+            <div className="button-div">
+                <Button onClick={() => setPagina("add")} label="Adicionar Tarefa" />
             </div>
             <SideBar
                 paginaAtual="home"
                 setPagina={setPagina}
             />
             {deleteTaskId && <DeleteConfirmCard deleteId={deleteTaskId} deleteTask={deleteTask} setDeleteId={setDeleteTaskId} />}
+            {showFilterOverlay && <FilterCard setShowFilterOverlay={setShowFilterOverlay} showOverdue={showOverdue} setShowOverdue={setShowOverdue} showOngoing={showOngoing} setShowOngoing={setShowOngoing} showCompleted={showCompleted} setShowCompleted={setShowCompleted} />}
         </div>
     )
 }

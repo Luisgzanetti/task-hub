@@ -13,10 +13,11 @@
     flex-direction: column;
 
     gap: 24px;
+    
 }
 
 .usuario-title {
-    font-size: 28px;
+    font-size: 36px;
     font-weight: 700;
 }
 
@@ -40,12 +41,13 @@
 
     background-color: white;
 
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 700;
 
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 
     cursor: pointer;
+    
 }
 
 .voltar-button {
@@ -82,7 +84,7 @@
 }
 
 .usuario-input-group label {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 700;
 }
 
@@ -97,6 +99,7 @@
     padding: 0 14px;
 
     background-color: white;
+    font-size: 18px;
 }
 
 .senha-input {
@@ -127,10 +130,13 @@
 
     color: white;
 
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
 
     cursor: pointer;
+
+    width: 300px; 
+    margin: 0 auto;
 }
 
 .perfil-modal {
@@ -181,7 +187,7 @@
 }
 
 .perfil-modal-content h1 {
-    font-size: 34px;
+    font-size: 36px;
 }
 
 .logout-card {
@@ -203,7 +209,7 @@
     justify-content: center;
     align-items: center;
 
-    font-size: 34px;
+    font-size: 36px;
     font-weight: bold;
 }
 
