@@ -2,7 +2,7 @@ import "./Usuario.css"
 
 import { useState, useEffect } from "react"
 import { useApp } from "../../context/AppContext"
-import { atualizarUsuario } from "../../services/api"
+import { atualizarUsuario, deletarUsuario, fazerLogin } from "../../services/api"
 
 import TopBar from "../../components/TopBar/TopBar"
 import SideBar from "../../components/SideBar/SideBar"
@@ -26,6 +26,8 @@ export default function Usuario({ setPagina }) {
     const [confirmarSenha, setConfirmarSenha] = useState("")
 
     const [mostrarModal, setMostrarModal] = useState(false)
+    const [senhaExcluir, setSenhaExcluir] = useState("")
+    const [mostrarSenhaExcluir, setMostrarSenhaExcluir] = useState(false)
 
     useEffect(() => {
         if (usuario) {
@@ -64,12 +66,29 @@ export default function Usuario({ setPagina }) {
         }
     }
 
-    function excluirPerfil() {
-        setMostrarModal(true)
-        setTimeout(() => {
-            setMostrarModal(false)
-            setPagina("inicio")
-        }, 2000)
+    async function excluirPerfil() {
+        if (!senhaExcluir) {
+            alert("Por favor, insira sua senha para confirmar a exclusão.");
+            return;
+        }
+
+        try {
+            // Confirma a senha fazendo login novamente
+            await fazerLogin(usuario.email, senhaExcluir);
+
+            // Deleta o perfil do usuário
+            await deletarUsuario(usuario.id_usuario);
+
+            setMostrarModal(true);
+            setTimeout(() => {
+                setMostrarModal(false);
+                logout();
+                setPagina("inicio");
+            }, 2000);
+        } catch (error) {
+            console.error("Erro ao excluir perfil:", error);
+            alert("Erro ao confirmar senha: " + error.message);
+        }
     }
 
     async function alterarSenha() {
@@ -241,10 +260,15 @@ export default function Usuario({ setPagina }) {
                         <div className="senha-input">
 
                             <input
-                                type="password"
+                                type={mostrarSenhaExcluir ? "text" : "password"}
+                                value={senhaExcluir}
+                                onChange={(e) => setSenhaExcluir(e.target.value)}
                             />
 
-                            <BiShow />
+                            <BiShow
+                                style={{ cursor: "pointer" }}
+                                onClick={() => setMostrarSenhaExcluir(!mostrarSenhaExcluir)}
+                            />
 
                         </div>
 
@@ -494,7 +518,11 @@ export default function Usuario({ setPagina }) {
                     </button>
 
                     <button
-                        onClick={() => setTela("excluir")}
+                        onClick={() => {
+                            setSenhaExcluir("");
+                            setMostrarSenhaExcluir(false);
+                            setTela("excluir");
+                        }}
                     >
                         Excluir perfil
                     </button>

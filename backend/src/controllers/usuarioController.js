@@ -1,5 +1,22 @@
 import * as usuarioService from '../services/usuarioService.js';
 
+function formatarData(data) {
+    if (!data) return null;
+    let dataFormatada = data;
+    if (/^\d{2}\/\d{2}\/\d{4}$/.test(data)) {
+        const [dia, mes, ano] = data.split('/');
+        dataFormatada = `${ano}-${mes}-${dia}`;
+    }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dataFormatada)) {
+        throw new Error('Data de nascimento inválida. Use o formato DD/MM/AAAA ou AAAA-MM-DD.');
+    }
+    const parsedDate = new Date(dataFormatada);
+    if (isNaN(parsedDate.getTime())) {
+        throw new Error('Data de nascimento inválida.');
+    }
+    return dataFormatada;
+}
+
 /**
  * Controller responsável pelas funções relacionadas ao usuário.
  */
@@ -73,11 +90,18 @@ export async function cadastrar(req, res) {
             return res.status(400).json({ erro: 'Este CPF já está cadastrado.' });
         }
 
+        let dataNascimentoFormatada;
+        try {
+            dataNascimentoFormatada = formatarData(data_nascimento);
+        } catch (err) {
+            return res.status(400).json({ erro: err.message });
+        }
+
         const novoUsuario = await usuarioService.criarUsuario({
             nome,
             email,
             cpf: cleanedCpf,
-            data_nascimento,
+            data_nascimento: dataNascimentoFormatada,
             senha
         });
 
@@ -101,12 +125,21 @@ export async function atualizarUsuario(req, res) {
     try {
         const { id_usuario, nome, email, cpf, data_nascimento, senha } = req.body
 
+        let dataNascimentoFormatada = undefined;
+        if (data_nascimento !== undefined) {
+            try {
+                dataNascimentoFormatada = formatarData(data_nascimento);
+            } catch (err) {
+                return res.status(400).json({ erro: err.message });
+            }
+        }
+
         const usuarioEditado = await usuarioService.atualizarUsuario({
             id_usuario: id_usuario,
             nome: nome,
             email: email,
             cpf: cpf,
-            data_nascimento: data_nascimento,
+            data_nascimento: dataNascimentoFormatada,
             senha: senha
         })
 
@@ -125,22 +158,26 @@ export async function atualizarUsuario(req, res) {
         console.error('Erro ao editar usuário:', error);
         return res.status(500).json({ erro: 'Erro interno ao editar usuário.' })
     }
+}
 
-    export async function deletarUsuario(req, res) {
-        try{
-            const { id_usuario } = req.params;//requisicoes do tipo delete por padrao nao devem enviar um body com dados
-            await usuarioService.deletarUsuario(id_usuario);
-            
-            return res.status(200).json({
-                mensagem: 'Usuário deletado com sucesso!',
-                id_deletado: id_usuario
+export async function deletarUsuario(req, res) {
+    try {
+        const { id_usuario } = req.params; // requisicoes do tipo delete por padrao nao devem enviar um body com dados
+        const sucesso = await usuarioService.deletarUsuario(id_usuario);
+
+        if (!sucesso) {
+            return res.status(404).json({
+                erro: 'Usuário não encontrado.'
+            });
+        }
+
+        return res.status(200).json({
+            mensagem: 'Usuário deletado com sucesso!',
+            id_deletado: id_usuario
         });
 
     } catch (error) {
         console.error('Erro ao deletar usuário:', error);
         return res.status(500).json({ erro: 'Erro interno ao deletar usuário.' });
     }
-}
-            
-
 }

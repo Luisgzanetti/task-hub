@@ -78,14 +78,26 @@ export async function deletarTarefa(id_tarefa) {
     const db = await dbPromise;
 
     const query = `
-        DELETE FROM tarefas
+        UPDATE tarefas
+        SET deletado = 1
         WHERE id_tarefa = ?
     `;
 
     const [result] = await db.execute(query, [id_tarefa]);
 
-    return {
-        result,
-        id_tarefa_deletada: id_tarefa
-    };
+    return result.affectedRows > 0;
+}
+
+export async function restaurarTarefa(id_tarefa) {
+    const db = await dbPromise;
+
+    const query = `
+        UPDATE tarefas
+        SET deletado = 0
+        WHERE id_tarefa = ?
+    `;
+
+    const [result] = await db.execute(query, [id_tarefa]);
+
+    return result.affectedRows > 0;
 }

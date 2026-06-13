@@ -92,14 +92,19 @@ export async function editarTarefa(req, res) {
 
 export async function deletarTarefa(req, res) {
     try {
-        
         const { id_tarefa } = req.params;
         
         if (!id_tarefa) {
             return res.status(400).json({ erro: "O parâmetro id_tarefa na URL é obrigatório." });
         }
 
-        await tarefasService.deletarTarefa(id_tarefa);
+        const sucesso = await tarefasService.deletarTarefa(id_tarefa);
+
+        if (!sucesso) {
+            return res.status(404).json({
+                erro: "Tarefa não encontrada."
+            });
+        }
 
         return res.status(200).json({
             mensagem: "Tarefa deletada com sucesso!",
@@ -109,5 +114,32 @@ export async function deletarTarefa(req, res) {
     } catch (error) {
         console.error("Erro ao deletar tarefa:", error);
         return res.status(500).json({ erro: "Erro interno ao deletar tarefa" });
+    }
+}
+
+export async function restaurarTarefa(req, res) {
+    try {
+        const { id_tarefa } = req.params;
+        
+        if (!id_tarefa) {
+            return res.status(400).json({ erro: "O parâmetro id_tarefa na URL é obrigatório." });
+        }
+
+        const sucesso = await tarefasService.restaurarTarefa(id_tarefa);
+
+        if (!sucesso) {
+            return res.status(404).json({
+                erro: "Tarefa não encontrada."
+            });
+        }
+
+        return res.status(200).json({
+            mensagem: "Tarefa restaurada com sucesso!",
+            id_tarefa_restaurada: id_tarefa
+        });
+
+    } catch (error) {
+        console.error("Erro ao restaurar tarefa:", error);
+        return res.status(500).json({ erro: "Erro interno ao restaurar tarefa" });
     }
 }

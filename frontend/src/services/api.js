@@ -23,6 +23,57 @@ export async function cadastrarUsuario(userData) {
     return data;
 }
 
+export async function deletarUsuario(idUsuario) {
+    const response = await fetch(`${API_BASE_URL}/usuarios/${idUsuario}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.erro || 'Erro ao deletar usuário');
+    }
+
+    return data;
+}
+
+export async function deletarTarefa(idTarefa) {
+    const response = await fetch(`${API_BASE_URL}/tarefas/${idTarefa}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.erro || 'Erro ao deletar tarefa');
+    }
+
+    return data;
+}
+
+export async function restaurarTarefa(idTarefa) {
+    const response = await fetch(`${API_BASE_URL}/tarefas/${idTarefa}/restaurar`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.erro || 'Erro ao restaurar tarefa');
+    }
+
+    return data;
+}
+
 const STATUS_MAP = {
     "Em progresso": 1,
     "Concluída": 2,
@@ -89,7 +140,7 @@ export async function buscarTarefas(idUsuario) {
             category: t.status_nome || STATUS_REV_MAP[t.id_status] || "Em progresso",
             createdAt: t.criado_em,
             dueDate: { date, time },
-            deleted: t.deletado === 1
+            deleted: Boolean(t.deletado)
         };
     });
 
@@ -136,7 +187,7 @@ export async function editarTarefa(tarefaData) {
         category: newCategory,
         createdAt: data.tarefa.criado_em || tarefaData.createdAt,
         dueDate: { date, time },
-        deleted: data.tarefa.deletado === 1 || tarefaData.deleted
+        deleted: Boolean(data.tarefa.deletado) || tarefaData.deleted
     };
 }
 

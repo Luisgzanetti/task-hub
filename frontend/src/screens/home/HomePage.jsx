@@ -9,7 +9,7 @@ import FilterCard from '../../components/FilterCard/FilterCard.jsx';
 import Button from '../../components/Button/Button.jsx';
 import { useState } from "react"
 import { useApp } from '../../context/AppContext.jsx';
-import { editarTarefa } from '../../services/api.js';
+import { editarTarefa, deletarTarefa } from '../../services/api.js';
 
 export default function HomePage({ setPagina, setSelectedTaskId }) {
 
@@ -44,14 +44,21 @@ export default function HomePage({ setPagina, setSelectedTaskId }) {
         }))
     }
 
-    function deleteTask(id) {
-        setTasks(tasks.map(task => {
-            if (task.id === id) {
-                return { ...task, deleted: true }
-            }
-            return task
-        }));
-        setDeleteTaskId(null);
+    async function deleteTask(id) {
+        try {
+            await deletarTarefa(id);
+            setTasks(tasks.map(task => {
+                if (task.id === id) {
+                    return { ...task, deleted: true }
+                }
+                return task
+            }));
+        } catch (error) {
+            console.error("Erro ao deletar tarefa:", error);
+            alert("Erro ao deletar tarefa no servidor: " + error.message);
+        } finally {
+            setDeleteTaskId(null);
+        }
     }
 
     const filteredTasks = tasks.filter(task =>
