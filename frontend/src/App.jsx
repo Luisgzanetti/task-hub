@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { AppProvider } from "./context/AppContext";
+import { useState, useEffect } from "react"
+import { AppProvider, useApp } from "./context/AppContext";
 import LoginPage from "./screens/login/LoginPage"
 import HomePage from "./screens/home/HomePage"
 import Lixo from "./screens/lixo/lixo";
@@ -11,89 +11,69 @@ import User from "./screens/usuario/Usuario"
 import EditTask from "./screens/EditTask/EditTask";
 import AddTask from "./screens/AddTask/AddTask";
 
-export default function App() {
-
-    const [pagina, setPagina] = useState("inicio")
-
+function AppContent() {
+    const { usuario } = useApp();
+    const [pagina, setPagina] = useState(() => {
+        const cached = localStorage.getItem("usuario");
+        return cached ? "home" : "inicio";
+    });
     const [selectedTaskId, setSelectedTaskId] = useState(null) // Essa variável só serve para a página de editar
 
+    useEffect(() => {
+        if (!usuario) {
+            setPagina("inicio");
+        } else if (pagina === "inicio" || pagina === "login" || pagina === "cadastro") {
+            setPagina("home");
+        }
+    }, [usuario]);
+
     if (pagina === "inicio") {
-        return (
-            <AppProvider>
-                <Inicio setPagina={setPagina} />
-            </AppProvider>
-        )
+        return <Inicio setPagina={setPagina} />
     }
 
     if (pagina === "cadastro") {
-        return (
-            <AppProvider>
-                <Cadastro setPagina={setPagina} />
-            </AppProvider>
-        )
+        return <Cadastro setPagina={setPagina} />
     }
 
     if (pagina === "notification") {
-        return (
-            <AppProvider>
-                <Notification setPagina={setPagina} />
-            </AppProvider>
-        )
+        return <Notification setPagina={setPagina} />
     }
 
     if (pagina === "login") {
-        return (
-            <AppProvider>
-                <LoginPage setPagina={setPagina} />
-            </AppProvider>
-        )
+        return <LoginPage setPagina={setPagina} />
     }
 
     if (pagina === "lixo") {
-        return (
-            <AppProvider>
-                <Lixo setPagina={setPagina} />
-            </AppProvider>
-        )
+        return <Lixo setPagina={setPagina} />
     }
 
     if (pagina === "home") {
-        return (
-            <AppProvider>
-                <HomePage setPagina={setPagina} setSelectedTaskId={setSelectedTaskId} />
-            </AppProvider>
-        )
+        return <HomePage setPagina={setPagina} setSelectedTaskId={setSelectedTaskId} />
     }
 
     if (pagina === "recuperar") {
-        return (
-            <AppProvider>
-                <RecuperarSenha setPagina={setPagina} />
-            </AppProvider>
-        )
+        return <RecuperarSenha setPagina={setPagina} />
     }
 
     if (pagina === "user") {
-        return (
-            <AppProvider>
-                <User setPagina={setPagina} />
-            </AppProvider>
-        )
+        return <User setPagina={setPagina} />
     }
 
     if (pagina === "edit") {
-        return (
-            <AppProvider>
-                <EditTask setPagina={setPagina} taskId={selectedTaskId} setSelectedTaskId={setSelectedTaskId} />
-            </AppProvider>
-        )
+        return <EditTask setPagina={setPagina} taskId={selectedTaskId} setSelectedTaskId={setSelectedTaskId} />
     }
 
     if (pagina === "add") {
-        return (
-            <AppProvider>
-                <AddTask setPagina={setPagina} />
-            </AppProvider>
-        )
+        return <AddTask setPagina={setPagina} />
     }
+
+    return null;
+}
+
+export default function App() {
+    return (
+        <AppProvider>
+            <AppContent />
+        </AppProvider>
+    )
 }

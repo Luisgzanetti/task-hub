@@ -9,6 +9,7 @@ import FilterCard from '../../components/FilterCard/FilterCard.jsx';
 import Button from '../../components/Button/Button.jsx';
 import { useState } from "react"
 import { useApp } from '../../context/AppContext.jsx';
+import { editarTarefa, deletarTarefa } from '../../services/api.js';
 
 export default function HomePage({ setPagina, setSelectedTaskId }) {
 
@@ -24,27 +25,40 @@ export default function HomePage({ setPagina, setSelectedTaskId }) {
         setSearch(event.target.value)
     }
 
-    function completeTask(id) {
-        setTasks(tasks.map(task => {
-            if (task.id == id) {
-                if (task.category === "Concluída") {
-                    return { ...task, category: "Em progresso" }
-                } else {
-                    return { ...task, category: "Concluída" }
-                }
-            }
-            return task;
-        }));
-    }
-
-    function deleteTask(id) {
+    async function completeTask(id) {
+        const originalTask = tasks.find(task => task.id === id);
+        const updatedTask = await editarTarefa({
+            id: id,
+            name: originalTask.name,
+            description: originalTask.description,
+            dueDate: originalTask.dueDate,
+            category: originalTask.category === "Concluída" ? "Em progresso" : "Concluída",
+            createdAt: originalTask.createdAt,
+            deleted: originalTask.deleted
+        })
         setTasks(tasks.map(task => {
             if (task.id === id) {
-                return { ...task, deleted: true }
+                return updatedTask
             }
             return task
-        }));
-        setDeleteTaskId(null);
+        }))
+    }
+
+    async function deleteTask(id) {
+        try {
+            await deletarTarefa(id);
+            setTasks(tasks.map(task => {
+                if (task.id === id) {
+                    return { ...task, deleted: true }
+                }
+                return task
+            }));
+        } catch (error) {
+            console.error("Erro ao deletar tarefa:", error);
+            alert("Erro ao deletar tarefa no servidor: " + error.message);
+        } finally {
+            setDeleteTaskId(null);
+        }
     }
 
     const filteredTasks = tasks.filter(task =>

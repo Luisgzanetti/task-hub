@@ -4,6 +4,7 @@ import TopBar from '../../components/TopBar/TopBar'
 import { useApp } from '../../context/AppContext'
 import SideBar from '../../components/SideBar/SideBar'
 import { BiTime } from "react-icons/bi";
+import { restaurarTarefa as apiRestaurarTarefa } from '../../services/api';
 
 export default function Lixo({ setPagina }) {
 
@@ -13,15 +14,21 @@ export default function Lixo({ setPagina }) {
 
     const { tasks, setTasks } = useApp()
 
-    function restaurarTarefa() {
-
-        setTasks(tasks.map(task => {
-            if (task.id === tarefaSelecionada) {
-                return { ...task, deleted: false }
-            }
-            return task
-        }));
-        setMostrarModal(false)
+    async function restaurarTarefa() {
+        try {
+            await apiRestaurarTarefa(tarefaSelecionada);
+            setTasks(tasks.map(task => {
+                if (task.id === tarefaSelecionada) {
+                    return { ...task, deleted: false }
+                }
+                return task
+            }));
+        } catch (error) {
+            console.error("Erro ao restaurar tarefa:", error);
+            alert("Erro ao restaurar tarefa no servidor: " + error.message);
+        } finally {
+            setMostrarModal(false);
+        }
     }
 
     return (
